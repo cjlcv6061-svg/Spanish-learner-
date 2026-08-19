@@ -1,0 +1,1563 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>西語動詞變化機械練習</title>
+<style>
+  :root {
+    --color-presente: #2563eb;
+    --color-preterito: #ea580c;
+    --color-imperfecto: #7c3aed;
+    --color-futuro: #16a34a;
+    --color-condicional: #6b7280;
+    --bg: #f5f6f8;
+    --panel: #ffffff;
+    --text: #1f2430;
+    --text-dim: #6b7280;
+    --border: #e2e5ea;
+    --correct: #16a34a;
+    --wrong: #dc2626;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+  }
+  header {
+    background: var(--panel);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  header h1 {
+    font-size: 18px;
+    margin: 0;
+  }
+  nav.tabs {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  nav.tabs button {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 6px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    color: var(--text);
+  }
+  nav.tabs button.active {
+    background: var(--text);
+    color: #fff;
+    border-color: var(--text);
+  }
+  main {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 16px;
+  }
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+  h2 {
+    margin-top: 0;
+    font-size: 16px;
+  }
+  .form-row {
+    margin-bottom: 16px;
+  }
+  .form-row label.section-label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 14px;
+  }
+  .choice-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .choice-group button {
+    border: 1px solid var(--border);
+    background: #fff;
+    border-radius: 20px;
+    padding: 6px 14px;
+    font-size: 13px;
+    cursor: pointer;
+    color: var(--text);
+  }
+  .choice-group button.selected {
+    color: #fff;
+    border-color: transparent;
+  }
+  .tense-btn[data-tense="presente"].selected { background: var(--color-presente); }
+  .tense-btn[data-tense="preterito"].selected { background: var(--color-preterito); }
+  .tense-btn[data-tense="imperfecto"].selected { background: var(--color-imperfecto); }
+  .tense-btn[data-tense="futuro"].selected { background: var(--color-futuro); }
+  .tense-btn[data-tense="condicional"].selected { background: var(--color-condicional); }
+  .choice-group button.selected:not(.tense-btn) { background: #1f2430; }
+
+  select, input[type=number] {
+    padding: 8px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    font-size: 14px;
+    background: #fff;
+    color: var(--text);
+  }
+  .verb-picker {
+    max-height: 180px;
+    overflow-y: auto;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 4px;
+    font-size: 13px;
+  }
+  .verb-picker label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+  }
+  .primary-btn {
+    background: var(--text);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 20px;
+    font-size: 15px;
+    cursor: pointer;
+    width: 100%;
+  }
+  .primary-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  .secondary-btn {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    color: var(--text);
+  }
+
+  /* Quiz screen */
+  .quiz-card {
+    text-align: center;
+    padding: 32px 20px;
+  }
+  .tense-tag {
+    display: inline-block;
+    padding: 4px 14px;
+    border-radius: 16px;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+  .tense-tag.presente { background: var(--color-presente); }
+  .tense-tag.preterito { background: var(--color-preterito); }
+  .tense-tag.imperfecto { background: var(--color-imperfecto); }
+  .tense-tag.futuro { background: var(--color-futuro); }
+  .tense-tag.condicional { background: var(--color-condicional); }
+
+  .prompt-line {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .prompt-verb {
+    color: var(--text-dim);
+    font-weight: 400;
+  }
+  .zh-hint {
+    font-size: 14px;
+    color: var(--text-dim);
+    margin-bottom: 24px;
+  }
+  .answer-input {
+    width: 100%;
+    max-width: 320px;
+    padding: 14px;
+    font-size: 20px;
+    text-align: center;
+    border-radius: 10px;
+    border: 2px solid var(--border);
+    outline: none;
+  }
+  .answer-input.correct { border-color: var(--correct); background: #f0fdf4; }
+  .answer-input.wrong { border-color: var(--wrong); background: #fef2f2; }
+  .feedback {
+    margin-top: 16px;
+    font-size: 16px;
+    font-weight: 600;
+    min-height: 24px;
+  }
+  .feedback.correct { color: var(--correct); }
+  .feedback.wrong { color: var(--wrong); }
+  .example-hint {
+    margin-top: 8px;
+    font-size: 13px;
+    color: var(--text-dim);
+  }
+  .quiz-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: var(--text-dim);
+    margin-bottom: 8px;
+  }
+  .next-btn {
+    margin-top: 16px;
+  }
+  .submit-row {
+    margin-top: 20px;
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+  }
+
+  /* Weak points */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  th, td {
+    text-align: left;
+    padding: 6px 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  th { color: var(--text-dim); font-weight: 600; }
+  .del-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 2px 8px;
+    cursor: pointer;
+    font-size: 12px;
+  }
+
+  /* stats */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .stat-box {
+    background: #fafafa;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 12px;
+    text-align: center;
+  }
+  .stat-box .num {
+    font-size: 24px;
+    font-weight: 700;
+  }
+  .stat-box .label {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-top: 4px;
+  }
+  .bar-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    font-size: 13px;
+  }
+  .bar-row .bar-label {
+    width: 90px;
+    flex-shrink: 0;
+  }
+  .bar-track {
+    flex: 1;
+    background: #eee;
+    border-radius: 6px;
+    overflow: hidden;
+    height: 10px;
+  }
+  .bar-fill {
+    height: 100%;
+    border-radius: 6px;
+  }
+  .bar-pct {
+    width: 44px;
+    text-align: right;
+    color: var(--text-dim);
+    flex-shrink: 0;
+  }
+  .hidden { display: none !important; }
+  .small-note {
+    font-size: 12px;
+    color: var(--text-dim);
+    margin-top: 8px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>西語動詞變化機械練習</h1>
+  <nav class="tabs">
+    <button class="tab-btn active" data-tab="setup">練習設定</button>
+    <button class="tab-btn" data-tab="weak">錯題複習</button>
+    <button class="tab-btn" data-tab="stats">進度統計</button>
+  </nav>
+</header>
+
+<main>
+
+  <!-- ===================== SETUP TAB ===================== -->
+  <section id="tab-setup">
+    <div class="panel">
+      <h2>1. 選擇模式</h2>
+      <div class="choice-group" id="mode-group">
+        <button class="mode-btn selected" data-mode="A">A：遷詞式（單一時態逐動詞過）</button>
+        <button class="mode-btn" data-mode="B">B：混合隨機</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>2. 時態範圍（可複選）</h2>
+      <div class="choice-group" id="tense-group">
+        <button class="choice-btn tense-btn selected" data-tense="presente">現在式</button>
+        <button class="choice-btn tense-btn selected" data-tense="preterito">簡單過去式</button>
+        <button class="choice-btn tense-btn selected" data-tense="imperfecto">未完成過去式</button>
+        <button class="choice-btn tense-btn selected" data-tense="futuro">未來式</button>
+        <button class="choice-btn tense-btn selected" data-tense="condicional">條件式</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>3. 動詞範圍</h2>
+      <div class="choice-group" id="verb-range-group">
+        <button class="verb-range-btn selected" data-range="all">全部</button>
+        <button class="verb-range-btn" data-range="regular">只規則</button>
+        <button class="verb-range-btn" data-range="irregular">只不規則</button>
+        <button class="verb-range-btn" data-range="custom">自訂勾選</button>
+      </div>
+      <div id="verb-picker-wrap" class="hidden" style="margin-top:12px;">
+        <div class="verb-picker" id="verb-picker"></div>
+      </div>
+    </div>
+
+    <div class="panel" id="round-count-panel">
+      <h2>4. 本輪題數（模式 B）</h2>
+      <div class="choice-group" id="count-group">
+        <button class="count-btn" data-count="10">10</button>
+        <button class="count-btn selected" data-count="20">20</button>
+        <button class="count-btn" data-count="50">50</button>
+        <button class="count-btn" data-count="100">100</button>
+        <button class="count-btn" data-count="0">無限</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <button class="primary-btn" id="start-btn">開始練習</button>
+      <div class="small-note" id="setup-warning"></div>
+    </div>
+  </section>
+
+  <!-- ===================== QUIZ TAB ===================== -->
+  <section id="tab-quiz" class="hidden">
+    <div class="panel quiz-card">
+      <div class="quiz-meta">
+        <span id="quiz-progress"></span>
+        <span id="quiz-score"></span>
+      </div>
+      <div id="tense-tag" class="tense-tag presente">現在式</div>
+      <div class="prompt-line">
+        <span id="prompt-pronoun">yo</span>
+        <span class="prompt-verb" id="prompt-verb">hablar</span>
+      </div>
+      <div class="zh-hint" id="prompt-zh">說、講</div>
+      <input type="text" class="answer-input" id="answer-input" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="輸入變化形…">
+      <div class="feedback" id="feedback"></div>
+      <div class="example-hint hidden" id="example-hint"></div>
+      <div class="submit-row">
+        <button class="secondary-btn" id="submit-btn">送出</button>
+        <button class="secondary-btn next-btn hidden" id="next-btn">下一題 →</button>
+        <button class="secondary-btn" id="quit-btn">結束練習</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== RESULT TAB ===================== -->
+  <section id="tab-result" class="hidden">
+    <div class="panel">
+      <h2>本輪結果</h2>
+      <div class="stat-grid">
+        <div class="stat-box"><div class="num" id="result-total">0</div><div class="label">題數</div></div>
+        <div class="stat-box"><div class="num" id="result-correct">0</div><div class="label">答對</div></div>
+        <div class="stat-box"><div class="num" id="result-rate">0%</div><div class="label">正確率</div></div>
+      </div>
+      <button class="primary-btn" id="back-to-setup-btn">回到設定畫面</button>
+    </div>
+  </section>
+
+  <!-- ===================== WEAK POINTS TAB ===================== -->
+  <section id="tab-weak" class="hidden">
+    <div class="panel">
+      <h2>錯題複習</h2>
+      <div style="display:flex; gap:8px; margin-bottom:12px; flex-wrap:wrap;">
+        <button class="primary-btn" style="width:auto;" id="practice-weak-btn">只練錯題</button>
+        <button class="secondary-btn" id="clear-weak-btn">清除全部錯題紀錄</button>
+      </div>
+      <div style="overflow-x:auto;">
+        <table id="weak-table">
+          <thead>
+            <tr>
+              <th>動詞</th><th>時態</th><th>人稱</th><th>正確答案</th><th>你的錯誤答案</th><th>錯誤次數</th><th></th>
+            </tr>
+          </thead>
+          <tbody id="weak-tbody"></tbody>
+        </table>
+      </div>
+      <div class="small-note" id="weak-empty">目前沒有錯題紀錄。</div>
+    </div>
+  </section>
+
+  <!-- ===================== STATS TAB ===================== -->
+  <section id="tab-stats" class="hidden">
+    <div class="panel">
+      <h2>整體進度</h2>
+      <div class="stat-grid">
+        <div class="stat-box"><div class="num" id="stat-total">0</div><div class="label">總練習題數</div></div>
+        <div class="stat-box"><div class="num" id="stat-rate">0%</div><div class="label">總正確率</div></div>
+      </div>
+    </div>
+    <div class="panel">
+      <h2>依時態分列正確率</h2>
+      <div id="stat-by-tense"></div>
+    </div>
+    <div class="panel">
+      <h2>依動詞類型分列正確率</h2>
+      <div id="stat-by-type"></div>
+    </div>
+    <div class="panel">
+      <button class="secondary-btn" id="reset-stats-btn">重設所有統計數據</button>
+    </div>
+  </section>
+
+</main>
+
+<script>
+"use strict";
+
+// ============================================================
+// 動詞資料（來源：irregular_verbs_data.md / regular_verbs_data.md，逐一核實）
+// ============================================================
+
+const IRREGULAR_VERBS = [
+  {
+    infinitivo: "ser", tipo: "irregular", zh: "是（本質、身分）",
+    ejemplo_zh: "自我介紹、描述事物本質時用",
+    conjugaciones: {
+      presente:    ["soy", "eres", "es", "somos", "son"],
+      preterito:   ["fui", "fuiste", "fue", "fuimos", "fueron"],
+      imperfecto:  ["era", "eras", "era", "éramos", "eran"],
+      futuro:      ["seré", "serás", "será", "seremos", "serán"],
+      condicional: ["sería", "serías", "sería", "seríamos", "serían"]
+    }
+  },
+  {
+    infinitivo: "estar", tipo: "irregular", zh: "是（狀態、位置）",
+    ejemplo_zh: "說明所在地點、身體/心情狀態",
+    conjugaciones: {
+      presente:    ["estoy", "estás", "está", "estamos", "están"],
+      preterito:   ["estuve", "estuviste", "estuvo", "estuvimos", "estuvieron"],
+      imperfecto:  ["estaba", "estabas", "estaba", "estábamos", "estaban"],
+      futuro:      ["estaré", "estarás", "estará", "estaremos", "estarán"],
+      condicional: ["estaría", "estarías", "estaría", "estaríamos", "estarían"]
+    }
+  },
+  {
+    infinitivo: "tener", tipo: "irregular", zh: "擁有、有",
+    ejemplo_zh: "已掌握框架動詞，行程中訂房/急事常用",
+    conjugaciones: {
+      presente:    ["tengo", "tienes", "tiene", "tenemos", "tienen"],
+      preterito:   ["tuve", "tuviste", "tuvo", "tuvimos", "tuvieron"],
+      imperfecto:  ["tenía", "tenías", "tenía", "teníamos", "tenían"],
+      futuro:      ["tendré", "tendrás", "tendrá", "tendremos", "tendrán"],
+      condicional: ["tendría", "tendrías", "tendría", "tendríamos", "tendrían"]
+    }
+  },
+  {
+    infinitivo: "ir", tipo: "irregular", zh: "去",
+    ejemplo_zh: "ir+a 框架，問路/規劃行程核心動詞",
+    conjugaciones: {
+      presente:    ["voy", "vas", "va", "vamos", "van"],
+      preterito:   ["fui", "fuiste", "fue", "fuimos", "fueron"],
+      imperfecto:  ["iba", "ibas", "iba", "íbamos", "iban"],
+      futuro:      ["iré", "irás", "irá", "iremos", "irán"],
+      condicional: ["iría", "irías", "iría", "iríamos", "irían"]
+    }
+  },
+  {
+    infinitivo: "poder", tipo: "irregular", zh: "能夠、可以",
+    ejemplo_zh: "詢問是否可行、殺價協商時用",
+    conjugaciones: {
+      presente:    ["puedo", "puedes", "puede", "podemos", "pueden"],
+      preterito:   ["pude", "pudiste", "pudo", "pudimos", "pudieron"],
+      imperfecto:  ["podía", "podías", "podía", "podíamos", "podían"],
+      futuro:      ["podré", "podrás", "podrá", "podremos", "podrán"],
+      condicional: ["podría", "podrías", "podría", "podríamos", "podrían"]
+    }
+  },
+  {
+    infinitivo: "querer", tipo: "irregular", zh: "想要",
+    ejemplo_zh: "點餐、表達需求核心動詞",
+    conjugaciones: {
+      presente:    ["quiero", "quieres", "quiere", "queremos", "quieren"],
+      preterito:   ["quise", "quisiste", "quiso", "quisimos", "quisieron"],
+      imperfecto:  ["quería", "querías", "quería", "queríamos", "querían"],
+      futuro:      ["querré", "querrás", "querrá", "querremos", "querrán"],
+      condicional: ["querría", "querrías", "querría", "querríamos", "querrían"]
+    }
+  },
+  {
+    infinitivo: "hacer", tipo: "irregular", zh: "做、製作",
+    ejemplo_zh: "詢問行程安排、活動內容",
+    conjugaciones: {
+      presente:    ["hago", "haces", "hace", "hacemos", "hacen"],
+      preterito:   ["hice", "hiciste", "hizo", "hicimos", "hicieron"],
+      imperfecto:  ["hacía", "hacías", "hacía", "hacíamos", "hacían"],
+      futuro:      ["haré", "harás", "hará", "haremos", "harán"],
+      condicional: ["haría", "harías", "haría", "haríamos", "harían"]
+    }
+  },
+  {
+    infinitivo: "decir", tipo: "irregular", zh: "說、告訴",
+    ejemplo_zh: "轉述、確認溝通內容",
+    conjugaciones: {
+      presente:    ["digo", "dices", "dice", "decimos", "dicen"],
+      preterito:   ["dije", "dijiste", "dijo", "dijimos", "dijeron"],
+      imperfecto:  ["decía", "decías", "decía", "decíamos", "decían"],
+      futuro:      ["diré", "dirás", "dirá", "diremos", "dirán"],
+      condicional: ["diría", "dirías", "diría", "diríamos", "dirían"]
+    }
+  },
+  {
+    infinitivo: "dar", tipo: "irregular", zh: "給",
+    ejemplo_zh: "付款、給小費情境",
+    conjugaciones: {
+      presente:    ["doy", "das", "da", "damos", "dan"],
+      preterito:   ["di", "diste", "dio", "dimos", "dieron"],
+      imperfecto:  ["daba", "dabas", "daba", "dábamos", "daban"],
+      futuro:      ["daré", "darás", "dará", "daremos", "darán"],
+      condicional: ["daría", "darías", "daría", "daríamos", "darían"]
+    }
+  },
+  {
+    infinitivo: "saber", tipo: "irregular", zh: "知道、懂得",
+    ejemplo_zh: "問路、確認資訊",
+    conjugaciones: {
+      presente:    ["sé", "sabes", "sabe", "sabemos", "saben"],
+      preterito:   ["supe", "supiste", "supo", "supimos", "supieron"],
+      imperfecto:  ["sabía", "sabías", "sabía", "sabíamos", "sabían"],
+      futuro:      ["sabré", "sabrás", "sabrá", "sabremos", "sabrán"],
+      condicional: ["sabría", "sabrías", "sabría", "sabríamos", "sabrían"]
+    }
+  },
+  {
+    infinitivo: "venir", tipo: "irregular", zh: "來",
+    ejemplo_zh: "約定會面地點時間",
+    conjugaciones: {
+      presente:    ["vengo", "vienes", "viene", "venimos", "vienen"],
+      preterito:   ["vine", "viniste", "vino", "vinimos", "vinieron"],
+      imperfecto:  ["venía", "venías", "venía", "veníamos", "venían"],
+      futuro:      ["vendré", "vendrás", "vendrá", "vendremos", "vendrán"],
+      condicional: ["vendría", "vendrías", "vendría", "vendríamos", "vendrían"]
+    }
+  },
+  {
+    infinitivo: "salir", tipo: "irregular", zh: "離開、外出",
+    ejemplo_zh: "出發時間、退房情境",
+    conjugaciones: {
+      presente:    ["salgo", "sales", "sale", "salimos", "salen"],
+      preterito:   ["salí", "saliste", "salió", "salimos", "salieron"],
+      imperfecto:  ["salía", "salías", "salía", "salíamos", "salían"],
+      futuro:      ["saldré", "saldrás", "saldrá", "saldremos", "saldrán"],
+      condicional: ["saldría", "saldrías", "saldría", "saldríamos", "saldrían"]
+    }
+  },
+  {
+    infinitivo: "ver", tipo: "irregular", zh: "看",
+    ejemplo_zh: "描述景點、觀光活動",
+    conjugaciones: {
+      presente:    ["veo", "ves", "ve", "vemos", "ven"],
+      preterito:   ["vi", "viste", "vio", "vimos", "vieron"],
+      imperfecto:  ["veía", "veías", "veía", "veíamos", "veían"],
+      futuro:      ["veré", "verás", "verá", "veremos", "verán"],
+      condicional: ["vería", "verías", "vería", "veríamos", "verían"]
+    }
+  },
+  {
+    infinitivo: "poner", tipo: "irregular", zh: "放、放置",
+    ejemplo_zh: "整理行李、擺放物品",
+    conjugaciones: {
+      presente:    ["pongo", "pones", "pone", "ponemos", "ponen"],
+      preterito:   ["puse", "pusiste", "puso", "pusimos", "pusieron"],
+      imperfecto:  ["ponía", "ponías", "ponía", "poníamos", "ponían"],
+      futuro:      ["pondré", "pondrás", "pondrá", "pondremos", "pondrán"],
+      condicional: ["pondría", "pondrías", "pondría", "pondríamos", "pondrían"]
+    }
+  },
+  {
+    infinitivo: "pedir", tipo: "irregular", zh: "要求、點（餐）",
+    ejemplo_zh: "點餐核心動詞，e>i stem-changing",
+    conjugaciones: {
+      presente:    ["pido", "pides", "pide", "pedimos", "piden"],
+      preterito:   ["pedí", "pediste", "pidió", "pedimos", "pidieron"],
+      imperfecto:  ["pedía", "pedías", "pedía", "pedíamos", "pedían"],
+      futuro:      ["pediré", "pedirás", "pedirá", "pediremos", "pedirán"],
+      condicional: ["pediría", "pedirías", "pediría", "pediríamos", "pedirían"]
+    }
+  },
+  {
+    infinitivo: "dormir", tipo: "irregular", zh: "睡覺",
+    ejemplo_zh: "住宿、高海拔適應情境，o>ue/o>u stem-changing",
+    conjugaciones: {
+      presente:    ["duermo", "duermes", "duerme", "dormimos", "duermen"],
+      preterito:   ["dormí", "dormiste", "durmió", "dormimos", "durmieron"],
+      imperfecto:  ["dormía", "dormías", "dormía", "dormíamos", "dormían"],
+      futuro:      ["dormiré", "dormirás", "dormirá", "dormiremos", "dormirán"],
+      condicional: ["dormiría", "dormirías", "dormiría", "dormiríamos", "dormirían"]
+    }
+  },
+  {
+    infinitivo: "seguir", tipo: "irregular", zh: "繼續、跟隨",
+    ejemplo_zh: "問路（一直走/繼續走）核心動詞，注意 gu>g 拼寫變化",
+    conjugaciones: {
+      presente:    ["sigo", "sigues", "sigue", "seguimos", "siguen"],
+      preterito:   ["seguí", "seguiste", "siguió", "seguimos", "siguieron"],
+      imperfecto:  ["seguía", "seguías", "seguía", "seguíamos", "seguían"],
+      futuro:      ["seguiré", "seguirás", "seguirá", "seguiremos", "seguirán"],
+      condicional: ["seguiría", "seguirías", "seguiría", "seguiríamos", "seguirían"]
+    }
+  },
+  {
+    infinitivo: "jugar", tipo: "irregular", zh: "玩、比賽",
+    ejemplo_zh: "足球賽情境，唯一 u>ue stem-changing 動詞，preterito 注意 gu 保音拼寫",
+    conjugaciones: {
+      presente:    ["juego", "juegas", "juega", "jugamos", "juegan"],
+      preterito:   ["jugué", "jugaste", "jugó", "jugamos", "jugaron"],
+      imperfecto:  ["jugaba", "jugabas", "jugaba", "jugábamos", "jugaban"],
+      futuro:      ["jugaré", "jugarás", "jugará", "jugaremos", "jugarán"],
+      condicional: ["jugaría", "jugarías", "jugaría", "jugaríamos", "jugarían"]
+    }
+  }
+];
+
+const REGULAR_VERBS = [
+  // ===== -AR 動詞（16 個）=====
+  {
+    infinitivo: "hablar", tipo: "regular", grupo: "ar", zh: "說、講",
+    ejemplo_zh: "市場殺價、日常對話核心動詞",
+    conjugaciones: {
+      presente:    ["hablo", "hablas", "habla", "hablamos", "hablan"],
+      preterito:   ["hablé", "hablaste", "habló", "hablamos", "hablaron"],
+      imperfecto:  ["hablaba", "hablabas", "hablaba", "hablábamos", "hablaban"],
+      futuro:      ["hablaré", "hablarás", "hablará", "hablaremos", "hablarán"],
+      condicional: ["hablaría", "hablarías", "hablaría", "hablaríamos", "hablarían"]
+    }
+  },
+  {
+    infinitivo: "viajar", tipo: "regular", grupo: "ar", zh: "旅行",
+    ejemplo_zh: "描述行程移動核心動詞",
+    conjugaciones: {
+      presente:    ["viajo", "viajas", "viaja", "viajamos", "viajan"],
+      preterito:   ["viajé", "viajaste", "viajó", "viajamos", "viajaron"],
+      imperfecto:  ["viajaba", "viajabas", "viajaba", "viajábamos", "viajaban"],
+      futuro:      ["viajaré", "viajarás", "viajará", "viajaremos", "viajarán"],
+      condicional: ["viajaría", "viajarías", "viajaría", "viajaríamos", "viajarían"]
+    }
+  },
+  {
+    infinitivo: "comprar", tipo: "regular", grupo: "ar", zh: "買",
+    ejemplo_zh: "市場、紀念品採購情境",
+    conjugaciones: {
+      presente:    ["compro", "compras", "compra", "compramos", "compran"],
+      preterito:   ["compré", "compraste", "compró", "compramos", "compraron"],
+      imperfecto:  ["compraba", "comprabas", "compraba", "comprábamos", "compraban"],
+      futuro:      ["compraré", "comprarás", "comprará", "compraremos", "comprarán"],
+      condicional: ["compraría", "comprarías", "compraría", "compraríamos", "comprarían"]
+    }
+  },
+  {
+    infinitivo: "preguntar", tipo: "regular", grupo: "ar", zh: "詢問",
+    ejemplo_zh: "問路、問資訊核心動詞",
+    conjugaciones: {
+      presente:    ["pregunto", "preguntas", "pregunta", "preguntamos", "preguntan"],
+      preterito:   ["pregunté", "preguntaste", "preguntó", "preguntamos", "preguntaron"],
+      imperfecto:  ["preguntaba", "preguntabas", "preguntaba", "preguntábamos", "preguntaban"],
+      futuro:      ["preguntaré", "preguntarás", "preguntará", "preguntaremos", "preguntarán"],
+      condicional: ["preguntaría", "preguntarías", "preguntaría", "preguntaríamos", "preguntarían"]
+    }
+  },
+  {
+    infinitivo: "caminar", tipo: "regular", grupo: "ar", zh: "走路",
+    ejemplo_zh: "徒步觀光、健行情境",
+    conjugaciones: {
+      presente:    ["camino", "caminas", "camina", "caminamos", "caminan"],
+      preterito:   ["caminé", "caminaste", "caminó", "caminamos", "caminaron"],
+      imperfecto:  ["caminaba", "caminabas", "caminaba", "caminábamos", "caminaban"],
+      futuro:      ["caminaré", "caminarás", "caminará", "caminaremos", "caminarán"],
+      condicional: ["caminaría", "caminarías", "caminaría", "caminaríamos", "caminarían"]
+    }
+  },
+  {
+    infinitivo: "tomar", tipo: "regular", grupo: "ar", zh: "拿、搭乘、喝",
+    ejemplo_zh: "搭車、飲品點餐情境",
+    conjugaciones: {
+      presente:    ["tomo", "tomas", "toma", "tomamos", "toman"],
+      preterito:   ["tomé", "tomaste", "tomó", "tomamos", "tomaron"],
+      imperfecto:  ["tomaba", "tomabas", "tomaba", "tomábamos", "tomaban"],
+      futuro:      ["tomaré", "tomarás", "tomará", "tomaremos", "tomarán"],
+      condicional: ["tomaría", "tomarías", "tomaría", "tomaríamos", "tomarían"]
+    }
+  },
+  {
+    infinitivo: "llegar", tipo: "regular", grupo: "ar", zh: "到達",
+    ejemplo_zh: "抵達時間，preterito yo 有 gu 拼寫變化（保音）",
+    conjugaciones: {
+      presente:    ["llego", "llegas", "llega", "llegamos", "llegan"],
+      preterito:   ["llegué", "llegaste", "llegó", "llegamos", "llegaron"],
+      imperfecto:  ["llegaba", "llegabas", "llegaba", "llegábamos", "llegaban"],
+      futuro:      ["llegaré", "llegarás", "llegará", "llegaremos", "llegarán"],
+      condicional: ["llegaría", "llegarías", "llegaría", "llegaríamos", "llegarían"]
+    }
+  },
+  {
+    infinitivo: "buscar", tipo: "regular", grupo: "ar", zh: "尋找",
+    ejemplo_zh: "找地址、找店家，preterito yo 有 qu 拼寫變化（保音）",
+    conjugaciones: {
+      presente:    ["busco", "buscas", "busca", "buscamos", "buscan"],
+      preterito:   ["busqué", "buscaste", "buscó", "buscamos", "buscaron"],
+      imperfecto:  ["buscaba", "buscabas", "buscaba", "buscábamos", "buscaban"],
+      futuro:      ["buscaré", "buscarás", "buscará", "buscaremos", "buscarán"],
+      condicional: ["buscaría", "buscarías", "buscaría", "buscaríamos", "buscarían"]
+    }
+  },
+  {
+    infinitivo: "pagar", tipo: "regular", grupo: "ar", zh: "付款",
+    ejemplo_zh: "結帳核心動詞，preterito yo 有 gu 拼寫變化（保音）",
+    conjugaciones: {
+      presente:    ["pago", "pagas", "paga", "pagamos", "pagan"],
+      preterito:   ["pagué", "pagaste", "pagó", "pagamos", "pagaron"],
+      imperfecto:  ["pagaba", "pagabas", "pagaba", "pagábamos", "pagaban"],
+      futuro:      ["pagaré", "pagarás", "pagará", "pagaremos", "pagarán"],
+      condicional: ["pagaría", "pagarías", "pagaría", "pagaríamos", "pagarían"]
+    }
+  },
+  {
+    infinitivo: "reservar", tipo: "regular", grupo: "ar", zh: "預訂",
+    ejemplo_zh: "訂房、訂票核心動詞",
+    conjugaciones: {
+      presente:    ["reservo", "reservas", "reserva", "reservamos", "reservan"],
+      preterito:   ["reservé", "reservaste", "reservó", "reservamos", "reservaron"],
+      imperfecto:  ["reservaba", "reservabas", "reservaba", "reservábamos", "reservaban"],
+      futuro:      ["reservaré", "reservarás", "reservará", "reservaremos", "reservarán"],
+      condicional: ["reservaría", "reservarías", "reservaría", "reservaríamos", "reservarían"]
+    }
+  },
+  {
+    infinitivo: "cambiar", tipo: "regular", grupo: "ar", zh: "換、更改",
+    ejemplo_zh: "換錢、換車核心動詞",
+    conjugaciones: {
+      presente:    ["cambio", "cambias", "cambia", "cambiamos", "cambian"],
+      preterito:   ["cambié", "cambiaste", "cambió", "cambiamos", "cambiaron"],
+      imperfecto:  ["cambiaba", "cambiabas", "cambiaba", "cambiábamos", "cambiaban"],
+      futuro:      ["cambiaré", "cambiarás", "cambiará", "cambiaremos", "cambiarán"],
+      condicional: ["cambiaría", "cambiarías", "cambiaría", "cambiaríamos", "cambiarían"]
+    }
+  },
+  {
+    infinitivo: "necesitar", tipo: "regular", grupo: "ar", zh: "需要",
+    ejemplo_zh: "表達需求核心動詞",
+    conjugaciones: {
+      presente:    ["necesito", "necesitas", "necesita", "necesitamos", "necesitan"],
+      preterito:   ["necesité", "necesitaste", "necesitó", "necesitamos", "necesitaron"],
+      imperfecto:  ["necesitaba", "necesitabas", "necesitaba", "necesitábamos", "necesitaban"],
+      futuro:      ["necesitaré", "necesitarás", "necesitará", "necesitaremos", "necesitarán"],
+      condicional: ["necesitaría", "necesitarías", "necesitaría", "necesitaríamos", "necesitarían"]
+    }
+  },
+  {
+    infinitivo: "mirar", tipo: "regular", grupo: "ar", zh: "看、觀看",
+    ejemplo_zh: "觀景、賞景核心動詞",
+    conjugaciones: {
+      presente:    ["miro", "miras", "mira", "miramos", "miran"],
+      preterito:   ["miré", "miraste", "miró", "miramos", "miraron"],
+      imperfecto:  ["miraba", "mirabas", "miraba", "mirábamos", "miraban"],
+      futuro:      ["miraré", "mirarás", "mirará", "miraremos", "mirarán"],
+      condicional: ["miraría", "mirarías", "miraría", "miraríamos", "mirarían"]
+    }
+  },
+  {
+    infinitivo: "cocinar", tipo: "regular", grupo: "ar", zh: "烹飪",
+    ejemplo_zh: "料理課、廚房情境",
+    conjugaciones: {
+      presente:    ["cocino", "cocinas", "cocina", "cocinamos", "cocinan"],
+      preterito:   ["cociné", "cocinaste", "cocinó", "cocinamos", "cocinaron"],
+      imperfecto:  ["cocinaba", "cocinabas", "cocinaba", "cocinábamos", "cocinaban"],
+      futuro:      ["cocinaré", "cocinarás", "cocinará", "cocinaremos", "cocinarán"],
+      condicional: ["cocinaría", "cocinarías", "cocinaría", "cocinaríamos", "cocinarían"]
+    }
+  },
+  {
+    infinitivo: "regresar", tipo: "regular", grupo: "ar", zh: "返回",
+    ejemplo_zh: "回程、回旅館情境",
+    conjugaciones: {
+      presente:    ["regreso", "regresas", "regresa", "regresamos", "regresan"],
+      preterito:   ["regresé", "regresaste", "regresó", "regresamos", "regresaron"],
+      imperfecto:  ["regresaba", "regresabas", "regresaba", "regresábamos", "regresaban"],
+      futuro:      ["regresaré", "regresarás", "regresará", "regresaremos", "regresarán"],
+      condicional: ["regresaría", "regresarías", "regresaría", "regresaríamos", "regresarían"]
+    }
+  },
+  {
+    infinitivo: "esperar", tipo: "regular", grupo: "ar", zh: "等待、希望",
+    ejemplo_zh: "等車、等位核心動詞",
+    conjugaciones: {
+      presente:    ["espero", "esperas", "espera", "esperamos", "esperan"],
+      preterito:   ["esperé", "esperaste", "esperó", "esperamos", "esperaron"],
+      imperfecto:  ["esperaba", "esperabas", "esperaba", "esperábamos", "esperaban"],
+      futuro:      ["esperaré", "esperarás", "esperará", "esperaremos", "esperarán"],
+      condicional: ["esperaría", "esperarías", "esperaría", "esperaríamos", "esperarían"]
+    }
+  },
+  {
+    infinitivo: "llevar", tipo: "regular", grupo: "ar", zh: "攜帶、穿戴",
+    ejemplo_zh: "行李攜帶、穿著描述",
+    conjugaciones: {
+      presente:    ["llevo", "llevas", "lleva", "llevamos", "llevan"],
+      preterito:   ["llevé", "llevaste", "llevó", "llevamos", "llevaron"],
+      imperfecto:  ["llevaba", "llevabas", "llevaba", "llevábamos", "llevaban"],
+      futuro:      ["llevaré", "llevarás", "llevará", "llevaremos", "llevarán"],
+      condicional: ["llevaría", "llevarías", "llevaría", "llevaríamos", "llevarían"]
+    }
+  },
+
+  // ===== -ER 動詞（5 個）=====
+  {
+    infinitivo: "comer", tipo: "regular", grupo: "er", zh: "吃",
+    ejemplo_zh: "餐廳、美食核心動詞",
+    conjugaciones: {
+      presente:    ["como", "comes", "come", "comemos", "comen"],
+      preterito:   ["comí", "comiste", "comió", "comimos", "comieron"],
+      imperfecto:  ["comía", "comías", "comía", "comíamos", "comían"],
+      futuro:      ["comeré", "comerás", "comerá", "comeremos", "comerán"],
+      condicional: ["comería", "comerías", "comería", "comeríamos", "comerían"]
+    }
+  },
+  {
+    infinitivo: "beber", tipo: "regular", grupo: "er", zh: "喝",
+    ejemplo_zh: "飲品點餐核心動詞",
+    conjugaciones: {
+      presente:    ["bebo", "bebes", "bebe", "bebemos", "beben"],
+      preterito:   ["bebí", "bebiste", "bebió", "bebimos", "bebieron"],
+      imperfecto:  ["bebía", "bebías", "bebía", "bebíamos", "bebían"],
+      futuro:      ["beberé", "beberás", "beberá", "beberemos", "beberán"],
+      condicional: ["bebería", "beberías", "bebería", "beberíamos", "beberían"]
+    }
+  },
+  {
+    infinitivo: "aprender", tipo: "regular", grupo: "er", zh: "學習",
+    ejemplo_zh: "語言學習、文化學習情境",
+    conjugaciones: {
+      presente:    ["aprendo", "aprendes", "aprende", "aprendemos", "aprenden"],
+      preterito:   ["aprendí", "aprendiste", "aprendió", "aprendimos", "aprendieron"],
+      imperfecto:  ["aprendía", "aprendías", "aprendía", "aprendíamos", "aprendían"],
+      futuro:      ["aprenderé", "aprenderás", "aprenderá", "aprenderemos", "aprenderán"],
+      condicional: ["aprendería", "aprenderías", "aprendería", "aprenderíamos", "aprenderían"]
+    }
+  },
+  {
+    infinitivo: "correr", tipo: "regular", grupo: "er", zh: "跑",
+    ejemplo_zh: "趕車、運動情境",
+    conjugaciones: {
+      presente:    ["corro", "corres", "corre", "corremos", "corren"],
+      preterito:   ["corrí", "corriste", "corrió", "corrimos", "corrieron"],
+      imperfecto:  ["corría", "corrías", "corría", "corríamos", "corrían"],
+      futuro:      ["correré", "correrás", "correrá", "correremos", "correrán"],
+      condicional: ["correría", "correrías", "correría", "correríamos", "correrían"]
+    }
+  },
+  {
+    infinitivo: "vender", tipo: "regular", grupo: "er", zh: "賣",
+    ejemplo_zh: "市場、商店交易情境",
+    conjugaciones: {
+      presente:    ["vendo", "vendes", "vende", "vendemos", "venden"],
+      preterito:   ["vendí", "vendiste", "vendió", "vendimos", "vendieron"],
+      imperfecto:  ["vendía", "vendías", "vendía", "vendíamos", "vendían"],
+      futuro:      ["venderé", "venderás", "venderá", "venderemos", "venderán"],
+      condicional: ["vendería", "venderías", "vendería", "venderíamos", "venderían"]
+    }
+  },
+
+  // ===== -IR 動詞（4 個）=====
+  {
+    infinitivo: "vivir", tipo: "regular", grupo: "ir", zh: "居住、生活",
+    ejemplo_zh: "描述住宿、生活方式",
+    conjugaciones: {
+      presente:    ["vivo", "vives", "vive", "vivimos", "viven"],
+      preterito:   ["viví", "viviste", "vivió", "vivimos", "vivieron"],
+      imperfecto:  ["vivía", "vivías", "vivía", "vivíamos", "vivían"],
+      futuro:      ["viviré", "vivirás", "vivirá", "viviremos", "vivirán"],
+      condicional: ["viviría", "vivirías", "viviría", "viviríamos", "vivirían"]
+    }
+  },
+  {
+    infinitivo: "escribir", tipo: "regular", grupo: "ir", zh: "寫",
+    ejemplo_zh: "明信片、筆記情境",
+    conjugaciones: {
+      presente:    ["escribo", "escribes", "escribe", "escribimos", "escriben"],
+      preterito:   ["escribí", "escribiste", "escribió", "escribimos", "escribieron"],
+      imperfecto:  ["escribía", "escribías", "escribía", "escribíamos", "escribían"],
+      futuro:      ["escribiré", "escribirás", "escribirá", "escribiremos", "escribirán"],
+      condicional: ["escribiría", "escribirías", "escribiría", "escribiríamos", "escribirían"]
+    }
+  },
+  {
+    infinitivo: "subir", tipo: "regular", grupo: "ir", zh: "上、爬升",
+    ejemplo_zh: "登山、上車核心動詞",
+    conjugaciones: {
+      presente:    ["subo", "subes", "sube", "subimos", "suben"],
+      preterito:   ["subí", "subiste", "subió", "subimos", "subieron"],
+      imperfecto:  ["subía", "subías", "subía", "subíamos", "subían"],
+      futuro:      ["subiré", "subirás", "subirá", "subiremos", "subirán"],
+      condicional: ["subiría", "subirías", "subiría", "subiríamos", "subirían"]
+    }
+  },
+  {
+    infinitivo: "abrir", tipo: "regular", grupo: "ir", zh: "打開",
+    ejemplo_zh: "開門、開店情境",
+    conjugaciones: {
+      presente:    ["abro", "abres", "abre", "abrimos", "abren"],
+      preterito:   ["abrí", "abriste", "abrió", "abrimos", "abrieron"],
+      imperfecto:  ["abría", "abrías", "abría", "abríamos", "abrían"],
+      futuro:      ["abriré", "abrirás", "abrirá", "abriremos", "abrirán"],
+      condicional: ["abriría", "abrirías", "abriría", "abriríamos", "abrirían"]
+    }
+  }
+];
+
+const VERBS = [...REGULAR_VERBS, ...IRREGULAR_VERBS];
+
+// self-test：確認每個動詞每個時態都剛好有 5 個非空字串
+(function selfTest() {
+  const TENSES = ["presente", "preterito", "imperfecto", "futuro", "condicional"];
+  let errCount = 0;
+  VERBS.forEach(v => {
+    TENSES.forEach(t => {
+      const arr = v.conjugaciones && v.conjugaciones[t];
+      if (!Array.isArray(arr) || arr.length !== 5 || arr.some(s => typeof s !== "string" || s.trim() === "")) {
+        console.error(`[VERBS self-test] 缺漏或格式錯誤: ${v.infinitivo} / ${t}`, arr);
+        errCount++;
+      }
+    });
+  });
+  if (errCount === 0) {
+    console.log(`[VERBS self-test] 通過：共 ${VERBS.length} 個動詞，${VERBS.length * TENSES.length * 5} 筆變化形皆完整。`);
+  } else {
+    console.error(`[VERBS self-test] 發現 ${errCount} 處缺漏，請檢查上方訊息。`);
+  }
+})();
+
+// ============================================================
+// 常數
+// ============================================================
+
+const TENSE_LABELS = {
+  presente: "現在式",
+  preterito: "簡單過去式",
+  imperfecto: "未完成過去式",
+  futuro: "未來式",
+  condicional: "條件式"
+};
+const TENSE_ORDER = ["presente", "preterito", "imperfecto", "futuro", "condicional"];
+const PRONOUNS = ["yo", "tú", "él/ella/usted", "nosotros", "ellos/ellas/ustedes"];
+
+// ============================================================
+// localStorage helpers
+// ============================================================
+
+const LS_WEAK = "verbDrillWeakPoints";
+const LS_STATS = "verbDrillStats";
+
+function loadWeak() {
+  try {
+    return JSON.parse(localStorage.getItem(LS_WEAK)) || [];
+  } catch (e) { return []; }
+}
+function saveWeak(list) {
+  localStorage.setItem(LS_WEAK, JSON.stringify(list));
+}
+
+function defaultStats() {
+  return {
+    total: 0,
+    correct: 0,
+    byTense: {
+      presente: { total: 0, correct: 0 },
+      preterito: { total: 0, correct: 0 },
+      imperfecto: { total: 0, correct: 0 },
+      futuro: { total: 0, correct: 0 },
+      condicional: { total: 0, correct: 0 }
+    },
+    byType: {
+      regular: { total: 0, correct: 0 },
+      irregular: { total: 0, correct: 0 }
+    }
+  };
+}
+function loadStats() {
+  try {
+    const s = JSON.parse(localStorage.getItem(LS_STATS));
+    if (!s) return defaultStats();
+    // guard against missing sub-keys from older versions
+    const d = defaultStats();
+    return {
+      total: s.total || 0,
+      correct: s.correct || 0,
+      byTense: Object.assign(d.byTense, s.byTense),
+      byType: Object.assign(d.byType, s.byType)
+    };
+  } catch (e) { return defaultStats(); }
+}
+function saveStats(s) {
+  localStorage.setItem(LS_STATS, JSON.stringify(s));
+}
+
+// ============================================================
+// 比對邏輯：NFD normalize，去除重音符號（但保留 ñ），忽略大小寫/空白
+// ============================================================
+
+// Decompose (NFD), then strip combining diacritics EXCEPT the combining tilde
+// when it directly follows 'n' (i.e. ñ, which decomposes to n + U+0303) —
+// ñ is a distinct letter, not an accent variant, so año must not match ano.
+function normalizeForCompare(str) {
+  const trimmed = str.trim().toLowerCase();
+  const decomposed = trimmed.normalize("NFD");
+  let result = "";
+  for (let i = 0; i < decomposed.length; i++) {
+    const ch = decomposed[i];
+    const code = ch.codePointAt(0);
+    const isCombining = code >= 0x0300 && code <= 0x036f;
+    if (isCombining) {
+      // keep combining tilde (0303) only if it directly follows 'n'
+      if (code === 0x0303 && result.length > 0 && result[result.length - 1] === "n") {
+        result += ch;
+      }
+      // else: drop (strips accent marks like á->a, but not ñ)
+    } else {
+      result += ch;
+    }
+  }
+  return result.normalize("NFC");
+}
+
+function answersMatch(userInput, correctAnswer) {
+  return normalizeForCompare(userInput) === normalizeForCompare(correctAnswer);
+}
+
+// ============================================================
+// 應用狀態
+// ============================================================
+
+const state = {
+  mode: "A",
+  tenses: ["presente", "preterito", "imperfecto", "futuro", "condicional"],
+  verbRange: "all", // all | regular | irregular | custom
+  customVerbs: new Set(),
+  roundCount: 20, // 0 = infinite
+  queue: [],       // array of {verb, tense, personIndex}
+  queueIndex: 0,
+  sessionCorrect: 0,
+  sessionTotal: 0,
+  currentItem: null,
+  answered: false,
+  weakOnlyMode: false
+};
+
+// ============================================================
+// UI: Tabs
+// ============================================================
+
+function showTab(tabName) {
+  document.querySelectorAll("main > section").forEach(sec => sec.classList.add("hidden"));
+  const target = document.getElementById(`tab-${tabName}`);
+  if (target) target.classList.remove("hidden");
+  document.querySelectorAll(".tab-btn").forEach(btn => {
+    btn.classList.toggle("active", btn.dataset.tab === tabName);
+  });
+  if (tabName === "weak") renderWeakTable();
+  if (tabName === "stats") renderStats();
+}
+
+document.querySelectorAll(".tab-btn").forEach(btn => {
+  btn.addEventListener("click", () => showTab(btn.dataset.tab));
+});
+
+// ============================================================
+// UI: Setup form
+// ============================================================
+
+function buildVerbPicker() {
+  const wrap = document.getElementById("verb-picker");
+  wrap.innerHTML = "";
+  VERBS.forEach(v => {
+    const label = document.createElement("label");
+    const cb = document.createElement("input");
+    cb.type = "checkbox";
+    cb.value = v.infinitivo;
+    cb.checked = state.customVerbs.has(v.infinitivo);
+    cb.addEventListener("change", () => {
+      if (cb.checked) state.customVerbs.add(v.infinitivo);
+      else state.customVerbs.delete(v.infinitivo);
+    });
+    label.appendChild(cb);
+    label.appendChild(document.createTextNode(` ${v.infinitivo}`));
+    wrap.appendChild(label);
+  });
+}
+buildVerbPicker();
+
+document.getElementById("mode-group").addEventListener("click", e => {
+  const btn = e.target.closest(".mode-btn");
+  if (!btn) return;
+  state.mode = btn.dataset.mode;
+  document.querySelectorAll(".mode-btn").forEach(b => b.classList.toggle("selected", b === btn));
+  document.getElementById("round-count-panel").classList.toggle("hidden", state.mode !== "B");
+});
+
+document.getElementById("tense-group").addEventListener("click", e => {
+  const btn = e.target.closest(".tense-btn");
+  if (!btn) return;
+  btn.classList.toggle("selected");
+  state.tenses = Array.from(document.querySelectorAll(".tense-btn.selected")).map(b => b.dataset.tense);
+});
+
+document.getElementById("verb-range-group").addEventListener("click", e => {
+  const btn = e.target.closest(".verb-range-btn");
+  if (!btn) return;
+  state.verbRange = btn.dataset.range;
+  document.querySelectorAll(".verb-range-btn").forEach(b => b.classList.toggle("selected", b === btn));
+  document.getElementById("verb-picker-wrap").classList.toggle("hidden", state.verbRange !== "custom");
+});
+
+document.getElementById("count-group").addEventListener("click", e => {
+  const btn = e.target.closest(".count-btn");
+  if (!btn) return;
+  state.roundCount = parseInt(btn.dataset.count, 10);
+  document.querySelectorAll(".count-btn").forEach(b => b.classList.toggle("selected", b === btn));
+});
+
+document.getElementById("round-count-panel").classList.toggle("hidden", state.mode !== "B");
+
+function getVerbPool() {
+  if (state.verbRange === "regular") return VERBS.filter(v => v.tipo === "regular");
+  if (state.verbRange === "irregular") return VERBS.filter(v => v.tipo === "irregular");
+  if (state.verbRange === "custom") return VERBS.filter(v => state.customVerbs.has(v.infinitivo));
+  return VERBS;
+}
+
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function buildQueueModeA(pool, tenses) {
+  // 遷詞式：對每個時態，依序把每個動詞的 5 人稱都考過，才換下一個動詞
+  const queue = [];
+  tenses.forEach(tense => {
+    pool.forEach(verb => {
+      for (let p = 0; p < 5; p++) {
+        queue.push({ verb, tense, personIndex: p });
+      }
+    });
+  });
+  return queue;
+}
+
+function buildQueueModeB(pool, tenses, count) {
+  const queue = [];
+  const n = count > 0 ? count : 200; // "無限" -> generate in batches; start with 200
+  for (let i = 0; i < n; i++) {
+    const verb = pool[Math.floor(Math.random() * pool.length)];
+    const tense = tenses[Math.floor(Math.random() * tenses.length)];
+    const personIndex = Math.floor(Math.random() * 5);
+    queue.push({ verb, tense, personIndex });
+  }
+  return queue;
+}
+
+document.getElementById("start-btn").addEventListener("click", () => {
+  const pool = getVerbPool();
+  const warning = document.getElementById("setup-warning");
+  warning.textContent = "";
+  if (pool.length === 0) {
+    warning.textContent = "請至少選擇一個動詞。";
+    return;
+  }
+  if (state.tenses.length === 0) {
+    warning.textContent = "請至少選擇一個時態。";
+    return;
+  }
+  state.weakOnlyMode = false;
+  startSession(pool, state.tenses, state.mode, state.roundCount);
+});
+
+function startSession(pool, tenses, mode, roundCount) {
+  state.queue = mode === "A"
+    ? buildQueueModeA(pool, tenses)
+    : buildQueueModeB(pool, tenses, roundCount);
+  state.queueIndex = 0;
+  state.sessionCorrect = 0;
+  state.sessionTotal = 0;
+  state.mode = mode;
+  state.currentPool = pool;
+  state.currentTenses = tenses;
+  state.currentRoundCount = roundCount;
+  showTab("quiz");
+  nextQuestion();
+}
+
+// ============================================================
+// UI: Quiz
+// ============================================================
+
+const answerInput = document.getElementById("answer-input");
+const feedbackEl = document.getElementById("feedback");
+const exampleHintEl = document.getElementById("example-hint");
+const submitBtn = document.getElementById("submit-btn");
+const nextBtn = document.getElementById("next-btn");
+
+let autoAdvanceTimer = null;
+
+function nextQuestion() {
+  clearTimeout(autoAdvanceTimer);
+  if (state.mode === "B" && state.currentRoundCount === 0 && state.queueIndex >= state.queue.length) {
+    // infinite mode: extend queue
+    state.queue = state.queue.concat(buildQueueModeB(state.currentPool, state.currentTenses, 200));
+  }
+  if (state.queueIndex >= state.queue.length) {
+    endSession();
+    return;
+  }
+  state.currentItem = state.queue[state.queueIndex];
+  state.answered = false;
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const { verb, tense, personIndex } = state.currentItem;
+  const tag = document.getElementById("tense-tag");
+  tag.textContent = TENSE_LABELS[tense];
+  tag.className = `tense-tag ${tense}`;
+  document.getElementById("prompt-pronoun").textContent = PRONOUNS[personIndex];
+  document.getElementById("prompt-verb").textContent = verb.infinitivo;
+  document.getElementById("prompt-zh").textContent = verb.zh || "";
+  document.getElementById("quiz-progress").textContent =
+    state.currentRoundCount === 0 && state.mode === "B"
+      ? `第 ${state.queueIndex + 1} 題`
+      : `第 ${state.queueIndex + 1} / ${state.queue.length} 題`;
+  document.getElementById("quiz-score").textContent =
+    `答對 ${state.sessionCorrect} / ${state.sessionTotal}`;
+
+  answerInput.value = "";
+  answerInput.className = "answer-input";
+  feedbackEl.textContent = "";
+  feedbackEl.className = "feedback";
+  exampleHintEl.classList.add("hidden");
+  exampleHintEl.textContent = "";
+  nextBtn.classList.add("hidden");
+  submitBtn.classList.remove("hidden");
+  answerInput.disabled = false;
+  answerInput.focus();
+}
+
+function recordWeakPoint(item, userAnswer, correctAnswer) {
+  const list = loadWeak();
+  const existing = list.find(w =>
+    w.verb === item.verb.infinitivo && w.tense === item.tense && w.personIndex === item.personIndex
+  );
+  const now = new Date().toISOString();
+  if (existing) {
+    existing.count += 1;
+    existing.userAnswer = userAnswer;
+    existing.correctAnswer = correctAnswer;
+    existing.lastWrongAt = now;
+  } else {
+    list.push({
+      verb: item.verb.infinitivo,
+      tense: item.tense,
+      personIndex: item.personIndex,
+      userAnswer,
+      correctAnswer,
+      count: 1,
+      lastWrongAt: now
+    });
+  }
+  saveWeak(list);
+}
+
+function removeWeakPoint(item) {
+  const list = loadWeak().filter(w =>
+    !(w.verb === item.verb.infinitivo && w.tense === item.tense && w.personIndex === item.personIndex)
+  );
+  saveWeak(list);
+}
+
+function updateStats(item, isCorrect) {
+  const stats = loadStats();
+  stats.total += 1;
+  if (isCorrect) stats.correct += 1;
+  stats.byTense[item.tense].total += 1;
+  if (isCorrect) stats.byTense[item.tense].correct += 1;
+  const typeKey = item.verb.tipo === "irregular" ? "irregular" : "regular";
+  stats.byType[typeKey].total += 1;
+  if (isCorrect) stats.byType[typeKey].correct += 1;
+  saveStats(stats);
+}
+
+function submitAnswer() {
+  if (state.answered) return;
+  const item = state.currentItem;
+  const correctAnswer = item.verb.conjugaciones[item.tense][item.personIndex];
+  const userAnswer = answerInput.value;
+  const isCorrect = userAnswer.trim() !== "" && answersMatch(userAnswer, correctAnswer);
+
+  state.answered = true;
+  state.sessionTotal += 1;
+  if (isCorrect) state.sessionCorrect += 1;
+
+  updateStats(item, isCorrect);
+
+  if (isCorrect) {
+    answerInput.className = "answer-input correct";
+    feedbackEl.textContent = "✓ 正確";
+    feedbackEl.className = "feedback correct";
+    if (state.weakOnlyMode) removeWeakPoint(item);
+    document.getElementById("quiz-score").textContent = `答對 ${state.sessionCorrect} / ${state.sessionTotal}`;
+    submitBtn.classList.add("hidden");
+    nextBtn.classList.remove("hidden");
+    answerInput.disabled = true;
+    // auto-advance after 0.8s unless user already pressed Enter to move on
+    autoAdvanceTimer = setTimeout(() => {
+      state.queueIndex++;
+      nextQuestion();
+    }, 800);
+  } else {
+    answerInput.className = "answer-input wrong";
+    feedbackEl.innerHTML = `✗ 正確答案：<strong>${correctAnswer}</strong>`;
+    feedbackEl.className = "feedback wrong";
+    if (item.verb.ejemplo_zh) {
+      exampleHintEl.textContent = `💡 ${item.verb.ejemplo_zh}`;
+      exampleHintEl.classList.remove("hidden");
+    }
+    recordWeakPoint(item, userAnswer, correctAnswer);
+    document.getElementById("quiz-score").textContent = `答對 ${state.sessionCorrect} / ${state.sessionTotal}`;
+    submitBtn.classList.add("hidden");
+    nextBtn.classList.remove("hidden");
+    answerInput.disabled = true;
+    // wrong answers require manual advance, no auto-jump
+  }
+}
+
+submitBtn.addEventListener("click", submitAnswer);
+nextBtn.addEventListener("click", () => {
+  clearTimeout(autoAdvanceTimer);
+  state.queueIndex++;
+  nextQuestion();
+});
+
+answerInput.addEventListener("keydown", e => {
+  if (e.key !== "Enter") return;
+  e.preventDefault();
+  if (!state.answered) {
+    submitAnswer();
+    // spec: if correct and user pressed Enter, jump immediately (no waiting for the 0.8s delay)
+    if (answerInput.className.includes("correct")) {
+      clearTimeout(autoAdvanceTimer);
+      state.queueIndex++;
+      nextQuestion();
+    }
+  } else {
+    clearTimeout(autoAdvanceTimer);
+    state.queueIndex++;
+    nextQuestion();
+  }
+});
+
+document.getElementById("quit-btn").addEventListener("click", () => {
+  clearTimeout(autoAdvanceTimer);
+  endSession();
+});
+
+function endSession() {
+  document.getElementById("result-total").textContent = state.sessionTotal;
+  document.getElementById("result-correct").textContent = state.sessionCorrect;
+  const rate = state.sessionTotal > 0 ? Math.round((state.sessionCorrect / state.sessionTotal) * 100) : 0;
+  document.getElementById("result-rate").textContent = `${rate}%`;
+  showTab("result");
+}
+
+document.getElementById("back-to-setup-btn").addEventListener("click", () => showTab("setup"));
+
+// ============================================================
+// UI: Weak points
+// ============================================================
+
+function renderWeakTable() {
+  const list = loadWeak().slice().sort((a, b) => b.count - a.count);
+  const tbody = document.getElementById("weak-tbody");
+  tbody.innerHTML = "";
+  document.getElementById("weak-empty").classList.toggle("hidden", list.length > 0);
+  list.forEach((w, idx) => {
+    const tr = document.createElement("tr");
+    tr.innerHTML = `
+      <td>${w.verb}</td>
+      <td>${TENSE_LABELS[w.tense] || w.tense}</td>
+      <td>${PRONOUNS[w.personIndex] || ""}</td>
+      <td>${w.correctAnswer}</td>
+      <td>${w.userAnswer || "(空白)"}</td>
+      <td>${w.count}</td>
+      <td><button class="del-btn" data-idx="${idx}">刪除</button></td>
+    `;
+    tbody.appendChild(tr);
+  });
+  tbody.querySelectorAll(".del-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const idx = parseInt(btn.dataset.idx, 10);
+      const current = loadWeak().slice().sort((a, b) => b.count - a.count);
+      const target = current[idx];
+      const filtered = loadWeak().filter(w =>
+        !(w.verb === target.verb && w.tense === target.tense && w.personIndex === target.personIndex)
+      );
+      saveWeak(filtered);
+      renderWeakTable();
+    });
+  });
+}
+
+document.getElementById("clear-weak-btn").addEventListener("click", () => {
+  if (confirm("確定要清除全部錯題紀錄嗎？此動作無法復原。")) {
+    saveWeak([]);
+    renderWeakTable();
+  }
+});
+
+document.getElementById("practice-weak-btn").addEventListener("click", () => {
+  const list = loadWeak();
+  if (list.length === 0) {
+    alert("目前沒有錯題紀錄可練習。");
+    return;
+  }
+  const queue = list.map(w => {
+    const verb = VERBS.find(v => v.infinitivo === w.verb);
+    return verb ? { verb, tense: w.tense, personIndex: w.personIndex } : null;
+  }).filter(Boolean);
+  if (queue.length === 0) {
+    alert("找不到對應的動詞資料。");
+    return;
+  }
+  state.weakOnlyMode = true;
+  state.mode = "B";
+  state.queue = shuffle(queue);
+  state.queueIndex = 0;
+  state.sessionCorrect = 0;
+  state.sessionTotal = 0;
+  state.currentPool = getVerbPool();
+  state.currentTenses = state.tenses;
+  state.currentRoundCount = queue.length;
+  showTab("quiz");
+  nextQuestion();
+});
+
+// ============================================================
+// UI: Stats
+// ============================================================
+
+function renderBar(container, label, correct, total, color) {
+  const pct = total > 0 ? Math.round((correct / total) * 100) : 0;
+  const row = document.createElement("div");
+  row.className = "bar-row";
+  row.innerHTML = `
+    <div class="bar-label">${label}</div>
+    <div class="bar-track"><div class="bar-fill" style="width:${pct}%; background:${color};"></div></div>
+    <div class="bar-pct">${total > 0 ? pct + "%" : "—"}</div>
+  `;
+  container.appendChild(row);
+}
+
+function renderStats() {
+  const stats = loadStats();
+  document.getElementById("stat-total").textContent = stats.total;
+  document.getElementById("stat-rate").textContent =
+    stats.total > 0 ? `${Math.round((stats.correct / stats.total) * 100)}%` : "0%";
+
+  const byTenseEl = document.getElementById("stat-by-tense");
+  byTenseEl.innerHTML = "";
+  const tenseColors = {
+    presente: "var(--color-presente)",
+    preterito: "var(--color-preterito)",
+    imperfecto: "var(--color-imperfecto)",
+    futuro: "var(--color-futuro)",
+    condicional: "var(--color-condicional)"
+  };
+  TENSE_ORDER.forEach(t => {
+    const s = stats.byTense[t];
+    renderBar(byTenseEl, TENSE_LABELS[t], s.correct, s.total, tenseColors[t]);
+  });
+
+  const byTypeEl = document.getElementById("stat-by-type");
+  byTypeEl.innerHTML = "";
+  renderBar(byTypeEl, "規則動詞", stats.byType.regular.correct, stats.byType.regular.total, "#2563eb");
+  renderBar(byTypeEl, "不規則動詞", stats.byType.irregular.correct, stats.byType.irregular.total, "#dc2626");
+}
+
+document.getElementById("reset-stats-btn").addEventListener("click", () => {
+  if (confirm("確定要重設所有統計數據嗎？此動作無法復原。")) {
+    saveStats(defaultStats());
+    renderStats();
+  }
+});
+
+// ============================================================
+// 初始化
+// ============================================================
+
+showTab("setup");
+</script>
+</body>
+</html>
