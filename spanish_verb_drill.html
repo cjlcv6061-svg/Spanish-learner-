@@ -232,6 +232,21 @@
     text-align: left;
     color: var(--text);
   }
+  .recent-examples-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .recent-examples-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+    font-style: italic;
+    color: var(--text);
+  }
+  .recent-examples-list li:last-child {
+    border-bottom: none;
+  }
   .quiz-meta {
     display: flex;
     justify-content: space-between;
@@ -559,6 +574,12 @@
         <button class="secondary-btn next-btn hidden" id="next-btn">下一題 →</button>
         <button class="secondary-btn" id="quit-btn">結束練習</button>
       </div>
+    </div>
+
+    <div class="panel">
+      <h2>最近例句</h2>
+      <ul class="recent-examples-list" id="recent-examples-list"></ul>
+      <div class="small-note" id="recent-examples-empty">尚無紀錄，答題後會顯示在這裡（保留最近 5 句）。</div>
     </div>
   </section>
 
@@ -1344,7 +1365,8 @@ const state = {
   currentItem: null,
   answered: false,
   retryMode: false,
-  weakOnlyMode: false
+  weakOnlyMode: false,
+  recentExamples: [] // most-recent-first, capped at 5 — survives fast auto-advance/Enter skipping
 };
 
 // ============================================================
@@ -1498,6 +1520,8 @@ function startSession(pool, tenses, mode, roundCount) {
   state.currentPool = pool;
   state.currentTenses = tenses;
   state.currentRoundCount = roundCount;
+  state.recentExamples = [];
+  renderRecentExamples();
   showTab("quiz");
   nextQuestion();
 }
@@ -1604,13 +1628,36 @@ function updateStats(item, isCorrect) {
   saveStats(stats);
 }
 
+function renderRecentExamples() {
+  const list = document.getElementById("recent-examples-list");
+  const empty = document.getElementById("recent-examples-empty");
+  list.innerHTML = "";
+  state.recentExamples.forEach(s => {
+    const li = document.createElement("li");
+    li.textContent = s;
+    list.appendChild(li);
+  });
+  empty.classList.toggle("hidden", state.recentExamples.length > 0);
+}
+
+function addRecentExample(sentence) {
+  // Correct answers auto-advance fast (0.8s, or instantly on Enter), too fast to
+  // read the example sentence in the moment — this running log lets you catch up
+  // on the last few regardless of drilling speed.
+  state.recentExamples.unshift(sentence);
+  if (state.recentExamples.length > 5) state.recentExamples.length = 5;
+  renderRecentExamples();
+}
+
 function finalizeCorrect(item, wasRetry) {
   state.answered = true;
   answerInput.className = "answer-input correct";
   feedbackEl.textContent = wasRetry ? "✓ 訂正正確" : "✓ 正確";
   feedbackEl.className = "feedback correct";
-  exampleSentenceEl.textContent = buildEjemplo(item.verb, item.tense, item.personIndex);
+  const sentence = buildEjemplo(item.verb, item.tense, item.personIndex);
+  exampleSentenceEl.textContent = sentence;
   exampleSentenceEl.classList.remove("hidden");
+  addRecentExample(sentence);
   if (state.weakOnlyMode && !wasRetry) removeWeakPoint(item);
   document.getElementById("quiz-score").textContent = `答對 ${state.sessionCorrect} / ${state.sessionTotal}`;
   submitBtn.classList.add("hidden");
@@ -1777,6 +1824,8 @@ document.getElementById("practice-weak-btn").addEventListener("click", () => {
   state.currentPool = getVerbPool();
   state.currentTenses = state.tenses;
   state.currentRoundCount = queue.length;
+  state.recentExamples = [];
+  renderRecentExamples();
   showTab("quiz");
   nextQuestion();
 });
