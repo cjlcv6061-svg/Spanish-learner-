@@ -11,6 +11,8 @@
     --color-imperfecto: #7c3aed;
     --color-futuro: #16a34a;
     --color-condicional: #6b7280;
+    --color-perfecto: #db2777;
+    --color-progresivo: #0891b2;
     --bg: #f1e4d3;
     --panel: #fffaf2;
     --text: #3d2b1f;
@@ -111,6 +113,8 @@
   .tense-btn[data-tense="imperfecto"].selected { background: var(--color-imperfecto); }
   .tense-btn[data-tense="futuro"].selected { background: var(--color-futuro); }
   .tense-btn[data-tense="condicional"].selected { background: var(--color-condicional); }
+  .tense-btn[data-tense="perfecto"].selected { background: var(--color-perfecto); }
+  .tense-btn[data-tense="progresivo"].selected { background: var(--color-progresivo); }
   .choice-group button.selected:not(.tense-btn) { background: var(--text); }
 
   select, input[type=number] {
@@ -181,6 +185,8 @@
   .tense-tag.imperfecto { background: var(--color-imperfecto); }
   .tense-tag.futuro { background: var(--color-futuro); }
   .tense-tag.condicional { background: var(--color-condicional); }
+  .tense-tag.perfecto { background: var(--color-perfecto); }
+  .tense-tag.progresivo { background: var(--color-progresivo); }
 
   .prompt-line {
     font-size: 28px;
@@ -389,6 +395,8 @@
         <button class="choice-btn tense-btn selected" data-tense="imperfecto">Imperfecto</button>
         <button class="choice-btn tense-btn selected" data-tense="futuro">Futuro</button>
         <button class="choice-btn tense-btn selected" data-tense="condicional">Condicional</button>
+        <button class="choice-btn tense-btn selected" data-tense="perfecto">Presente Perfecto</button>
+        <button class="choice-btn tense-btn selected" data-tense="progresivo">Presente Progresivo</button>
       </div>
     </div>
 
@@ -435,6 +443,8 @@
             <tr><td><span class="tense-tag imperfecto inline-tag">未完成過去式</span></td><td>Pretérito imperfecto</td><td>過去的習慣、背景描述，動作進行中不強調結束</td></tr>
             <tr><td><span class="tense-tag futuro inline-tag">未來式</span></td><td>Futuro simple</td><td>未來會發生的事、推測</td></tr>
             <tr><td><span class="tense-tag condicional inline-tag">條件式</span></td><td>Condicional simple</td><td>假設語氣、委婉禮貌的請求</td></tr>
+            <tr><td><span class="tense-tag perfecto inline-tag">現在完成式</span></td><td>Presente Perfecto</td><td>到目前為止已經做過的事，不強調何時發生</td></tr>
+            <tr><td><span class="tense-tag progresivo inline-tag">現在進行式</span></td><td>Presente Progresivo</td><td>現在正在做的動作（用來練習 gerundio）</td></tr>
           </tbody>
         </table>
       </div>
@@ -536,6 +546,46 @@
       </div>
       <p class="small-note">範例：hablar → hablaría, hablarías, hablaría, hablaríamos, hablarían</p>
       <p class="small-note">⚠ 條件式的不規則詞幹與未來式完全一樣（同一組特殊詞幹，字尾規則）：tendría, podría, querría, sabría, pondría, saldría, vendría, haría, diría。</p>
+    </div>
+
+    <div class="panel">
+      <div class="tense-tag perfecto">現在完成式 Presente Perfecto</div>
+      <p>haber 現在式變化 + 過去分詞（participio），描述「到現在為止已經做過」的事，時態上不強調何時發生：</p>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead><tr><th>人稱</th><th>haber</th><th>+ participio</th></tr></thead>
+          <tbody>
+            <tr><td>yo</td><td>he</td><td rowspan="5" style="vertical-align:middle;">hablado／comido／vivido</td></tr>
+            <tr><td>tú</td><td>has</td></tr>
+            <tr><td>él/ella/usted</td><td>ha</td></tr>
+            <tr><td>nosotros</td><td>hemos</td></tr>
+            <tr><td>ellos/ellas/ustedes</td><td>han</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small-note">範例：Yo he hablado con el guía. ／ Ella ha comido ceviche. ／ Nosotros hemos vivido en Cusco.</p>
+      <p class="small-note">⚠ participio（過去分詞）規則變化：-ar→-ado（hablar→hablado），-er/-ir→-ido（comer→comido, vivir→vivido）。</p>
+      <p class="small-note">⚠ 本 app 涵蓋動詞中，participio 不規則的只有 6 個，需個別記憶：hacer→<strong>hecho</strong>、decir→<strong>dicho</strong>、ver→<strong>visto</strong>、poner→<strong>puesto</strong>、escribir→<strong>escrito</strong>、abrir→<strong>abierto</strong>。其餘（包含 ser→sido, ir→ido 等看似特殊者）皆為規則變化。</p>
+    </div>
+
+    <div class="panel">
+      <div class="tense-tag progresivo">現在進行式 Presente Progresivo</div>
+      <p>estar 現在式變化 + 現在分詞（gerundio），描述「現在正在做」的動作。本 app 用這個時態來練習 gerundio（因為 gerundio 本身不隨人稱變化，直接考它沒有意義，改用 estar+gerundio 的實際用法來練）：</p>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead><tr><th>人稱</th><th>estar</th><th>+ gerundio</th></tr></thead>
+          <tbody>
+            <tr><td>yo</td><td>estoy</td><td rowspan="5" style="vertical-align:middle;">hablando／comiendo／viviendo</td></tr>
+            <tr><td>tú</td><td>estás</td></tr>
+            <tr><td>él/ella/usted</td><td>está</td></tr>
+            <tr><td>nosotros</td><td>estamos</td></tr>
+            <tr><td>ellos/ellas/ustedes</td><td>están</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small-note">範例：Yo estoy hablando por teléfono. ／ Él está comiendo. ／ Ellos están viviendo una aventura.</p>
+      <p class="small-note">⚠ gerundio 規則變化：-ar→-ando（hablar→hablando），-er/-ir→-iendo（comer→comiendo, vivir→viviendo）。</p>
+      <p class="small-note">⚠ -ir 詞根母音變化動詞在 gerundio 也會變化（與簡單過去式第三人稱同一套規則）：pedir→pidiendo、dormir→durmiendo、decir→diciendo、seguir→siguiendo、venir→viniendo；poder 雖是 -er 動詞但同樣不規則：pudiendo。ir 的 gerundio 完全特殊：<strong>yendo</strong>（不是 iendo）。</p>
     </div>
 
     <div class="panel">
@@ -654,6 +704,7 @@ const IRREGULAR_VERBS = [
     infinitivo: "ser", tipo: "irregular", zh: "是（本質、身分）",
     ejemplo_zh: "自我介紹、描述事物本質時用",
     complemento: ["un viajero muy curioso", "un viajero muy curioso", "un viajero muy curioso", "unos viajeros muy curiosos", "unos viajeros muy curiosos"],
+    participio: "sido", gerundio: "siendo",
     conjugaciones: {
       presente:    ["soy", "eres", "es", "somos", "son"],
       preterito:   ["fui", "fuiste", "fue", "fuimos", "fueron"],
@@ -666,6 +717,7 @@ const IRREGULAR_VERBS = [
     infinitivo: "estar", tipo: "irregular", zh: "是（狀態、位置）",
     ejemplo_zh: "說明所在地點、身體/心情狀態",
     complemento: "en un hostal en Cusco",
+    participio: "estado", gerundio: "estando",
     conjugaciones: {
       presente:    ["estoy", "estás", "está", "estamos", "están"],
       preterito:   ["estuve", "estuviste", "estuvo", "estuvimos", "estuvieron"],
@@ -678,6 +730,7 @@ const IRREGULAR_VERBS = [
     infinitivo: "tener", tipo: "irregular", zh: "擁有、有",
     ejemplo_zh: "已掌握框架動詞，行程中訂房/急事常用",
     complemento: "mucha prisa por llegar al aeropuerto",
+    participio: "tenido", gerundio: "teniendo",
     conjugaciones: {
       presente:    ["tengo", "tienes", "tiene", "tenemos", "tienen"],
       preterito:   ["tuve", "tuviste", "tuvo", "tuvimos", "tuvieron"],
@@ -690,6 +743,7 @@ const IRREGULAR_VERBS = [
     infinitivo: "ir", tipo: "irregular", zh: "去",
     ejemplo_zh: "ir+a 框架，問路/規劃行程核心動詞",
     complemento: "al mercado central",
+    participio: "ido", gerundio: "yendo",
     conjugaciones: {
       presente:    ["voy", "vas", "va", "vamos", "van"],
       preterito:   ["fui", "fuiste", "fue", "fuimos", "fueron"],
@@ -702,6 +756,7 @@ const IRREGULAR_VERBS = [
     infinitivo: "poder", tipo: "irregular", zh: "能夠、可以",
     ejemplo_zh: "詢問是否可行、殺價協商時用",
     complemento: "hablar un poco de español",
+    participio: "podido", gerundio: "pudiendo",
     conjugaciones: {
       presente:    ["puedo", "puedes", "puede", "podemos", "pueden"],
       preterito:   ["pude", "pudiste", "pudo", "pudimos", "pudieron"],
@@ -714,6 +769,7 @@ const IRREGULAR_VERBS = [
     infinitivo: "querer", tipo: "irregular", zh: "想要",
     ejemplo_zh: "點餐、表達需求核心動詞",
     complemento: "probar la comida local",
+    participio: "querido", gerundio: "queriendo",
     conjugaciones: {
       presente:    ["quiero", "quieres", "quiere", "queremos", "quieren"],
       preterito:   ["quise", "quisiste", "quiso", "quisimos", "quisieron"],
@@ -726,6 +782,7 @@ const IRREGULAR_VERBS = [
     infinitivo: "hacer", tipo: "irregular", zh: "做、製作",
     ejemplo_zh: "詢問行程安排、活動內容",
     complemento: "una excursión a la montaña",
+    participio: "hecho", gerundio: "haciendo",
     conjugaciones: {
       presente:    ["hago", "haces", "hace", "hacemos", "hacen"],
       preterito:   ["hice", "hiciste", "hizo", "hicimos", "hicieron"],
@@ -738,6 +795,7 @@ const IRREGULAR_VERBS = [
     infinitivo: "decir", tipo: "irregular", zh: "說、告訴",
     ejemplo_zh: "轉述、確認溝通內容",
     complemento: "la verdad sobre el precio",
+    participio: "dicho", gerundio: "diciendo",
     conjugaciones: {
       presente:    ["digo", "dices", "dice", "decimos", "dicen"],
       preterito:   ["dije", "dijiste", "dijo", "dijimos", "dijeron"],
@@ -750,6 +808,7 @@ const IRREGULAR_VERBS = [
     infinitivo: "dar", tipo: "irregular", zh: "給",
     ejemplo_zh: "付款、給小費情境",
     complemento: "una propina al guía",
+    participio: "dado", gerundio: "dando",
     conjugaciones: {
       presente:    ["doy", "das", "da", "damos", "dan"],
       preterito:   ["di", "diste", "dio", "dimos", "dieron"],
@@ -762,6 +821,7 @@ const IRREGULAR_VERBS = [
     infinitivo: "saber", tipo: "irregular", zh: "知道、懂得",
     ejemplo_zh: "問路、確認資訊",
     complemento: "el camino al hotel",
+    participio: "sabido", gerundio: "sabiendo",
     conjugaciones: {
       presente:    ["sé", "sabes", "sabe", "sabemos", "saben"],
       preterito:   ["supe", "supiste", "supo", "supimos", "supieron"],
@@ -774,6 +834,7 @@ const IRREGULAR_VERBS = [
     infinitivo: "venir", tipo: "irregular", zh: "來",
     ejemplo_zh: "約定會面地點時間",
     complemento: "temprano a la estación",
+    participio: "venido", gerundio: "viniendo",
     conjugaciones: {
       presente:    ["vengo", "vienes", "viene", "venimos", "vienen"],
       preterito:   ["vine", "viniste", "vino", "vinimos", "vinieron"],
@@ -786,6 +847,7 @@ const IRREGULAR_VERBS = [
     infinitivo: "salir", tipo: "irregular", zh: "離開、外出",
     ejemplo_zh: "出發時間、退房情境",
     complemento: "del hostal a las ocho",
+    participio: "salido", gerundio: "saliendo",
     conjugaciones: {
       presente:    ["salgo", "sales", "sale", "salimos", "salen"],
       preterito:   ["salí", "saliste", "salió", "salimos", "salieron"],
@@ -798,6 +860,7 @@ const IRREGULAR_VERBS = [
     infinitivo: "ver", tipo: "irregular", zh: "看",
     ejemplo_zh: "描述景點、觀光活動",
     complemento: "las montañas desde el bus",
+    participio: "visto", gerundio: "viendo",
     conjugaciones: {
       presente:    ["veo", "ves", "ve", "vemos", "ven"],
       preterito:   ["vi", "viste", "vio", "vimos", "vieron"],
@@ -810,6 +873,7 @@ const IRREGULAR_VERBS = [
     infinitivo: "poner", tipo: "irregular", zh: "放、放置",
     ejemplo_zh: "整理行李、擺放物品",
     complemento: "la maleta sobre la cama",
+    participio: "puesto", gerundio: "poniendo",
     conjugaciones: {
       presente:    ["pongo", "pones", "pone", "ponemos", "ponen"],
       preterito:   ["puse", "pusiste", "puso", "pusimos", "pusieron"],
@@ -822,6 +886,7 @@ const IRREGULAR_VERBS = [
     infinitivo: "pedir", tipo: "irregular", zh: "要求、點（餐）",
     ejemplo_zh: "點餐核心動詞，e>i stem-changing",
     complemento: "la cuenta al camarero",
+    participio: "pedido", gerundio: "pidiendo",
     conjugaciones: {
       presente:    ["pido", "pides", "pide", "pedimos", "piden"],
       preterito:   ["pedí", "pediste", "pidió", "pedimos", "pidieron"],
@@ -834,6 +899,7 @@ const IRREGULAR_VERBS = [
     infinitivo: "dormir", tipo: "irregular", zh: "睡覺",
     ejemplo_zh: "住宿、高海拔適應情境，o>ue/o>u stem-changing",
     complemento: "en un hostal cerca de la plaza",
+    participio: "dormido", gerundio: "durmiendo",
     conjugaciones: {
       presente:    ["duermo", "duermes", "duerme", "dormimos", "duermen"],
       preterito:   ["dormí", "dormiste", "durmió", "dormimos", "durmieron"],
@@ -846,6 +912,7 @@ const IRREGULAR_VERBS = [
     infinitivo: "seguir", tipo: "irregular", zh: "繼續、跟隨",
     ejemplo_zh: "問路（一直走/繼續走）核心動詞，注意 gu>g 拼寫變化",
     complemento: "las señales hacia el centro",
+    participio: "seguido", gerundio: "siguiendo",
     conjugaciones: {
       presente:    ["sigo", "sigues", "sigue", "seguimos", "siguen"],
       preterito:   ["seguí", "seguiste", "siguió", "seguimos", "siguieron"],
@@ -858,6 +925,7 @@ const IRREGULAR_VERBS = [
     infinitivo: "jugar", tipo: "irregular", zh: "玩、比賽",
     ejemplo_zh: "足球賽情境，唯一 u>ue stem-changing 動詞，preterito 注意 gu 保音拼寫",
     complemento: "un partido de fútbol con amigos",
+    participio: "jugado", gerundio: "jugando",
     conjugaciones: {
       presente:    ["juego", "juegas", "juega", "jugamos", "juegan"],
       preterito:   ["jugué", "jugaste", "jugó", "jugamos", "jugaron"],
@@ -874,6 +942,7 @@ const REGULAR_VERBS = [
     infinitivo: "hablar", tipo: "regular", grupo: "ar", zh: "說、講",
     ejemplo_zh: "市場殺價、日常對話核心動詞",
     complemento: "español con la gente local",
+    participio: "hablado", gerundio: "hablando",
     conjugaciones: {
       presente:    ["hablo", "hablas", "habla", "hablamos", "hablan"],
       preterito:   ["hablé", "hablaste", "habló", "hablamos", "hablaron"],
@@ -886,6 +955,7 @@ const REGULAR_VERBS = [
     infinitivo: "viajar", tipo: "regular", grupo: "ar", zh: "旅行",
     ejemplo_zh: "描述行程移動核心動詞",
     complemento: "por toda Sudamérica",
+    participio: "viajado", gerundio: "viajando",
     conjugaciones: {
       presente:    ["viajo", "viajas", "viaja", "viajamos", "viajan"],
       preterito:   ["viajé", "viajaste", "viajó", "viajamos", "viajaron"],
@@ -898,6 +968,7 @@ const REGULAR_VERBS = [
     infinitivo: "comprar", tipo: "regular", grupo: "ar", zh: "買",
     ejemplo_zh: "市場、紀念品採購情境",
     complemento: "unos recuerdos en el mercado",
+    participio: "comprado", gerundio: "comprando",
     conjugaciones: {
       presente:    ["compro", "compras", "compra", "compramos", "compran"],
       preterito:   ["compré", "compraste", "compró", "compramos", "compraron"],
@@ -910,6 +981,7 @@ const REGULAR_VERBS = [
     infinitivo: "preguntar", tipo: "regular", grupo: "ar", zh: "詢問",
     ejemplo_zh: "問路、問資訊核心動詞",
     complemento: "la dirección al museo",
+    participio: "preguntado", gerundio: "preguntando",
     conjugaciones: {
       presente:    ["pregunto", "preguntas", "pregunta", "preguntamos", "preguntan"],
       preterito:   ["pregunté", "preguntaste", "preguntó", "preguntamos", "preguntaron"],
@@ -922,6 +994,7 @@ const REGULAR_VERBS = [
     infinitivo: "caminar", tipo: "regular", grupo: "ar", zh: "走路",
     ejemplo_zh: "徒步觀光、健行情境",
     complemento: "por las calles del centro histórico",
+    participio: "caminado", gerundio: "caminando",
     conjugaciones: {
       presente:    ["camino", "caminas", "camina", "caminamos", "caminan"],
       preterito:   ["caminé", "caminaste", "caminó", "caminamos", "caminaron"],
@@ -934,6 +1007,7 @@ const REGULAR_VERBS = [
     infinitivo: "tomar", tipo: "regular", grupo: "ar", zh: "拿、搭乘、喝",
     ejemplo_zh: "搭車、飲品點餐情境",
     complemento: "un autobús hacia la costa",
+    participio: "tomado", gerundio: "tomando",
     conjugaciones: {
       presente:    ["tomo", "tomas", "toma", "tomamos", "toman"],
       preterito:   ["tomé", "tomaste", "tomó", "tomamos", "tomaron"],
@@ -946,6 +1020,7 @@ const REGULAR_VERBS = [
     infinitivo: "llegar", tipo: "regular", grupo: "ar", zh: "到達",
     ejemplo_zh: "抵達時間，preterito yo 有 gu 拼寫變化（保音）",
     complemento: "al hotel muy tarde",
+    participio: "llegado", gerundio: "llegando",
     conjugaciones: {
       presente:    ["llego", "llegas", "llega", "llegamos", "llegan"],
       preterito:   ["llegué", "llegaste", "llegó", "llegamos", "llegaron"],
@@ -958,6 +1033,7 @@ const REGULAR_VERBS = [
     infinitivo: "buscar", tipo: "regular", grupo: "ar", zh: "尋找",
     ejemplo_zh: "找地址、找店家，preterito yo 有 qu 拼寫變化（保音）",
     complemento: "un cajero automático",
+    participio: "buscado", gerundio: "buscando",
     conjugaciones: {
       presente:    ["busco", "buscas", "busca", "buscamos", "buscan"],
       preterito:   ["busqué", "buscaste", "buscó", "buscamos", "buscaron"],
@@ -970,6 +1046,7 @@ const REGULAR_VERBS = [
     infinitivo: "pagar", tipo: "regular", grupo: "ar", zh: "付款",
     ejemplo_zh: "結帳核心動詞，preterito yo 有 gu 拼寫變化（保音）",
     complemento: "la cuenta con tarjeta",
+    participio: "pagado", gerundio: "pagando",
     conjugaciones: {
       presente:    ["pago", "pagas", "paga", "pagamos", "pagan"],
       preterito:   ["pagué", "pagaste", "pagó", "pagamos", "pagaron"],
@@ -982,6 +1059,7 @@ const REGULAR_VERBS = [
     infinitivo: "reservar", tipo: "regular", grupo: "ar", zh: "預訂",
     ejemplo_zh: "訂房、訂票核心動詞",
     complemento: "una habitación con vista al mar",
+    participio: "reservado", gerundio: "reservando",
     conjugaciones: {
       presente:    ["reservo", "reservas", "reserva", "reservamos", "reservan"],
       preterito:   ["reservé", "reservaste", "reservó", "reservamos", "reservaron"],
@@ -994,6 +1072,7 @@ const REGULAR_VERBS = [
     infinitivo: "cambiar", tipo: "regular", grupo: "ar", zh: "換、更改",
     ejemplo_zh: "換錢、換車核心動詞",
     complemento: "dinero en la casa de cambio",
+    participio: "cambiado", gerundio: "cambiando",
     conjugaciones: {
       presente:    ["cambio", "cambias", "cambia", "cambiamos", "cambian"],
       preterito:   ["cambié", "cambiaste", "cambió", "cambiamos", "cambiaron"],
@@ -1006,6 +1085,7 @@ const REGULAR_VERBS = [
     infinitivo: "necesitar", tipo: "regular", grupo: "ar", zh: "需要",
     ejemplo_zh: "表達需求核心動詞",
     complemento: "más tiempo para descansar",
+    participio: "necesitado", gerundio: "necesitando",
     conjugaciones: {
       presente:    ["necesito", "necesitas", "necesita", "necesitamos", "necesitan"],
       preterito:   ["necesité", "necesitaste", "necesitó", "necesitamos", "necesitaron"],
@@ -1018,6 +1098,7 @@ const REGULAR_VERBS = [
     infinitivo: "mirar", tipo: "regular", grupo: "ar", zh: "看、觀看",
     ejemplo_zh: "觀景、賞景核心動詞",
     complemento: "el atardecer desde la terraza",
+    participio: "mirado", gerundio: "mirando",
     conjugaciones: {
       presente:    ["miro", "miras", "mira", "miramos", "miran"],
       preterito:   ["miré", "miraste", "miró", "miramos", "miraron"],
@@ -1030,6 +1111,7 @@ const REGULAR_VERBS = [
     infinitivo: "cocinar", tipo: "regular", grupo: "ar", zh: "烹飪",
     ejemplo_zh: "料理課、廚房情境",
     complemento: "un plato típico peruano",
+    participio: "cocinado", gerundio: "cocinando",
     conjugaciones: {
       presente:    ["cocino", "cocinas", "cocina", "cocinamos", "cocinan"],
       preterito:   ["cociné", "cocinaste", "cocinó", "cocinamos", "cocinaron"],
@@ -1042,6 +1124,7 @@ const REGULAR_VERBS = [
     infinitivo: "regresar", tipo: "regular", grupo: "ar", zh: "返回",
     ejemplo_zh: "回程、回旅館情境",
     complemento: "al hostal antes de la noche",
+    participio: "regresado", gerundio: "regresando",
     conjugaciones: {
       presente:    ["regreso", "regresas", "regresa", "regresamos", "regresan"],
       preterito:   ["regresé", "regresaste", "regresó", "regresamos", "regresaron"],
@@ -1054,6 +1137,7 @@ const REGULAR_VERBS = [
     infinitivo: "esperar", tipo: "regular", grupo: "ar", zh: "等待、希望",
     ejemplo_zh: "等車、等位核心動詞",
     complemento: "el próximo tren con paciencia",
+    participio: "esperado", gerundio: "esperando",
     conjugaciones: {
       presente:    ["espero", "esperas", "espera", "esperamos", "esperan"],
       preterito:   ["esperé", "esperaste", "esperó", "esperamos", "esperaron"],
@@ -1066,6 +1150,7 @@ const REGULAR_VERBS = [
     infinitivo: "llevar", tipo: "regular", grupo: "ar", zh: "攜帶、穿戴",
     ejemplo_zh: "行李攜帶、穿著描述",
     complemento: "una mochila grande para el viaje",
+    participio: "llevado", gerundio: "llevando",
     conjugaciones: {
       presente:    ["llevo", "llevas", "lleva", "llevamos", "llevan"],
       preterito:   ["llevé", "llevaste", "llevó", "llevamos", "llevaron"],
@@ -1080,6 +1165,7 @@ const REGULAR_VERBS = [
     infinitivo: "comer", tipo: "regular", grupo: "er", zh: "吃",
     ejemplo_zh: "餐廳、美食核心動詞",
     complemento: "ceviche en un restaurante local",
+    participio: "comido", gerundio: "comiendo",
     conjugaciones: {
       presente:    ["como", "comes", "come", "comemos", "comen"],
       preterito:   ["comí", "comiste", "comió", "comimos", "comieron"],
@@ -1092,6 +1178,7 @@ const REGULAR_VERBS = [
     infinitivo: "beber", tipo: "regular", grupo: "er", zh: "喝",
     ejemplo_zh: "飲品點餐核心動詞",
     complemento: "mucha agua durante la caminata",
+    participio: "bebido", gerundio: "bebiendo",
     conjugaciones: {
       presente:    ["bebo", "bebes", "bebe", "bebemos", "beben"],
       preterito:   ["bebí", "bebiste", "bebió", "bebimos", "bebieron"],
@@ -1104,6 +1191,7 @@ const REGULAR_VERBS = [
     infinitivo: "aprender", tipo: "regular", grupo: "er", zh: "學習",
     ejemplo_zh: "語言學習、文化學習情境",
     complemento: "un poco de quechua",
+    participio: "aprendido", gerundio: "aprendiendo",
     conjugaciones: {
       presente:    ["aprendo", "aprendes", "aprende", "aprendemos", "aprenden"],
       preterito:   ["aprendí", "aprendiste", "aprendió", "aprendimos", "aprendieron"],
@@ -1116,6 +1204,7 @@ const REGULAR_VERBS = [
     infinitivo: "correr", tipo: "regular", grupo: "er", zh: "跑",
     ejemplo_zh: "趕車、運動情境",
     complemento: "para no perder el autobús",
+    participio: "corrido", gerundio: "corriendo",
     conjugaciones: {
       presente:    ["corro", "corres", "corre", "corremos", "corren"],
       preterito:   ["corrí", "corriste", "corrió", "corrimos", "corrieron"],
@@ -1128,6 +1217,7 @@ const REGULAR_VERBS = [
     infinitivo: "vender", tipo: "regular", grupo: "er", zh: "賣",
     ejemplo_zh: "市場、商店交易情境",
     complemento: "artesanías en la calle",
+    participio: "vendido", gerundio: "vendiendo",
     conjugaciones: {
       presente:    ["vendo", "vendes", "vende", "vendemos", "venden"],
       preterito:   ["vendí", "vendiste", "vendió", "vendimos", "vendieron"],
@@ -1142,6 +1232,7 @@ const REGULAR_VERBS = [
     infinitivo: "vivir", tipo: "regular", grupo: "ir", zh: "居住、生活",
     ejemplo_zh: "描述住宿、生活方式",
     complemento: "una gran aventura en los Andes",
+    participio: "vivido", gerundio: "viviendo",
     conjugaciones: {
       presente:    ["vivo", "vives", "vive", "vivimos", "viven"],
       preterito:   ["viví", "viviste", "vivió", "vivimos", "vivieron"],
@@ -1154,6 +1245,7 @@ const REGULAR_VERBS = [
     infinitivo: "escribir", tipo: "regular", grupo: "ir", zh: "寫",
     ejemplo_zh: "明信片、筆記情境",
     complemento: "postales para la familia",
+    participio: "escrito", gerundio: "escribiendo",
     conjugaciones: {
       presente:    ["escribo", "escribes", "escribe", "escribimos", "escriben"],
       preterito:   ["escribí", "escribiste", "escribió", "escribimos", "escribieron"],
@@ -1166,6 +1258,7 @@ const REGULAR_VERBS = [
     infinitivo: "subir", tipo: "regular", grupo: "ir", zh: "上、爬升",
     ejemplo_zh: "登山、上車核心動詞",
     complemento: "a la cima del volcán",
+    participio: "subido", gerundio: "subiendo",
     conjugaciones: {
       presente:    ["subo", "subes", "sube", "subimos", "suben"],
       preterito:   ["subí", "subiste", "subió", "subimos", "subieron"],
@@ -1178,6 +1271,7 @@ const REGULAR_VERBS = [
     infinitivo: "abrir", tipo: "regular", grupo: "ir", zh: "打開",
     ejemplo_zh: "開門、開店情境",
     complemento: "la puerta del hostal con cuidado",
+    participio: "abierto", gerundio: "abriendo",
     conjugaciones: {
       presente:    ["abro", "abres", "abre", "abrimos", "abren"],
       preterito:   ["abrí", "abriste", "abrió", "abrimos", "abrieron"],
@@ -1190,9 +1284,25 @@ const REGULAR_VERBS = [
 
 const VERBS = [...REGULAR_VERBS, ...IRREGULAR_VERBS];
 
+// ============================================================
+// 複合時態：現在完成式（perfecto，haber 變化 + participio）與
+// 現在進行式（progresivo，estar 變化 + gerundio，用來練習 gerundio）。
+// 兩者的助動詞（haber/estar）人稱變化固定，動詞本身只提供不變的
+// participio／gerundio，故在此統一衍生出完整的 5 人稱變化陣列，
+// 不需要每個動詞手動輸入 5 筆重複助動詞的字串。
+// ============================================================
+
+const HABER_PRESENTE = ["he", "has", "ha", "hemos", "han"];
+const ESTAR_PRESENTE = ["estoy", "estás", "está", "estamos", "están"];
+
+VERBS.forEach(v => {
+  v.conjugaciones.perfecto = HABER_PRESENTE.map(h => `${h} ${v.participio}`);
+  v.conjugaciones.progresivo = ESTAR_PRESENTE.map(e => `${e} ${v.gerundio}`);
+});
+
 // self-test：確認每個動詞每個時態都剛好有 5 個非空字串
 (function selfTest() {
-  const TENSES = ["presente", "preterito", "imperfecto", "futuro", "condicional"];
+  const TENSES = ["presente", "preterito", "imperfecto", "futuro", "condicional", "perfecto", "progresivo"];
   let errCount = 0;
   VERBS.forEach(v => {
     TENSES.forEach(t => {
@@ -1208,6 +1318,10 @@ const VERBS = [...REGULAR_VERBS, ...IRREGULAR_VERBS];
       : isValidStr(v.complemento);
     if (!complementoOk) {
       console.error(`[VERBS self-test] 缺少或格式錯誤的例句搭配（complemento）: ${v.infinitivo}`, v.complemento);
+      errCount++;
+    }
+    if (!isValidStr(v.participio) || !isValidStr(v.gerundio)) {
+      console.error(`[VERBS self-test] 缺少 participio 或 gerundio: ${v.infinitivo}`, v.participio, v.gerundio);
       errCount++;
     }
   });
@@ -1227,9 +1341,11 @@ const TENSE_LABELS = {
   preterito: "Pretérito",
   imperfecto: "Imperfecto",
   futuro: "Futuro",
-  condicional: "Condicional"
+  condicional: "Condicional",
+  perfecto: "Presente Perfecto",
+  progresivo: "Presente Progresivo"
 };
-const TENSE_ORDER = ["presente", "preterito", "imperfecto", "futuro", "condicional"];
+const TENSE_ORDER = ["presente", "preterito", "imperfecto", "futuro", "condicional", "perfecto", "progresivo"];
 const PRONOUNS = ["yo", "tú", "él/ella/usted", "nosotros", "ellos/ellas/ustedes"];
 
 // ============================================================
@@ -1260,6 +1376,10 @@ function buildEjemplo(verb, tense, personIndex) {
       return `Mañana, ${EJEMPLO_SUJETO_LOW[personIndex]} ${vf} ${c}.`;
     case "condicional":
       return `Si pudiera, ${EJEMPLO_SUJETO_LOW[personIndex]} ${vf} ${c}.`;
+    case "perfecto":
+      return `${EJEMPLO_SUJETO_CAP[personIndex]} ya ${vf} ${c}.`;
+    case "progresivo":
+      return `${EJEMPLO_SUJETO_CAP[personIndex]} ${vf} ${c} ahora.`;
     default:
       return `${EJEMPLO_SUJETO_CAP[personIndex]} ${vf} ${c}.`;
   }
@@ -1290,7 +1410,9 @@ function defaultStats() {
       preterito: { total: 0, correct: 0 },
       imperfecto: { total: 0, correct: 0 },
       futuro: { total: 0, correct: 0 },
-      condicional: { total: 0, correct: 0 }
+      condicional: { total: 0, correct: 0 },
+      perfecto: { total: 0, correct: 0 },
+      progresivo: { total: 0, correct: 0 }
     },
     byType: {
       regular: { total: 0, correct: 0 },
@@ -1354,7 +1476,7 @@ function answersMatch(userInput, correctAnswer) {
 
 const state = {
   mode: "A",
-  tenses: ["presente", "preterito", "imperfecto", "futuro", "condicional"],
+  tenses: ["presente", "preterito", "imperfecto", "futuro", "condicional", "perfecto", "progresivo"],
   verbRange: "all", // all | regular | irregular | custom
   customVerbs: new Set(),
   roundCount: 20, // 0 = infinite
@@ -1859,7 +1981,9 @@ function renderStats() {
     preterito: "var(--color-preterito)",
     imperfecto: "var(--color-imperfecto)",
     futuro: "var(--color-futuro)",
-    condicional: "var(--color-condicional)"
+    condicional: "var(--color-condicional)",
+    perfecto: "var(--color-perfecto)",
+    progresivo: "var(--color-progresivo)"
   };
   TENSE_ORDER.forEach(t => {
     const s = stats.byTense[t];
