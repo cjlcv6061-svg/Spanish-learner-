@@ -316,6 +316,19 @@
     color: var(--text-dim);
     margin-top: 8px;
   }
+  .inline-tag {
+    margin: 0;
+    display: inline-block;
+  }
+  .rule-list {
+    margin: 0;
+    padding-left: 20px;
+    font-size: 13px;
+    line-height: 1.8;
+  }
+  .rule-list li {
+    margin-bottom: 4px;
+  }
 </style>
 </head>
 <body>
@@ -324,6 +337,7 @@
   <h1>西語動詞變化機械練習</h1>
   <nav class="tabs">
     <button class="tab-btn active" data-tab="setup">練習設定</button>
+    <button class="tab-btn" data-tab="learn">文法規則</button>
     <button class="tab-btn" data-tab="weak">錯題複習</button>
     <button class="tab-btn" data-tab="stats">進度統計</button>
   </nav>
@@ -379,6 +393,136 @@
     <div class="panel">
       <button class="primary-btn" id="start-btn">開始練習</button>
       <div class="small-note" id="setup-warning"></div>
+    </div>
+  </section>
+
+  <!-- ===================== LEARN TAB ===================== -->
+  <section id="tab-learn" class="hidden">
+    <div class="panel">
+      <h2>時態總覽</h2>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead><tr><th>時態</th><th>西語名稱</th><th>典型用途</th></tr></thead>
+          <tbody>
+            <tr><td><span class="tense-tag presente inline-tag">現在式</span></td><td>Presente de indicativo</td><td>目前的事實、習慣、正在做的事</td></tr>
+            <tr><td><span class="tense-tag preterito inline-tag">簡單過去式</span></td><td>Pretérito indefinido</td><td>過去某個時間點「已完成」的單一動作</td></tr>
+            <tr><td><span class="tense-tag imperfecto inline-tag">未完成過去式</span></td><td>Pretérito imperfecto</td><td>過去的習慣、背景描述，動作進行中不強調結束</td></tr>
+            <tr><td><span class="tense-tag futuro inline-tag">未來式</span></td><td>Futuro simple</td><td>未來會發生的事、推測</td></tr>
+            <tr><td><span class="tense-tag condicional inline-tag">條件式</span></td><td>Condicional simple</td><td>假設語氣、委婉禮貌的請求</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="tense-tag presente">現在式 Presente</div>
+      <p>規則動詞去掉字尾 -ar / -er / -ir 後，依詞尾加上對應變化：</p>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead><tr><th>人稱</th><th>-ar</th><th>-er</th><th>-ir</th></tr></thead>
+          <tbody>
+            <tr><td>yo</td><td>-o</td><td>-o</td><td>-o</td></tr>
+            <tr><td>tú</td><td>-as</td><td>-es</td><td>-es</td></tr>
+            <tr><td>él/ella/usted</td><td>-a</td><td>-e</td><td>-e</td></tr>
+            <tr><td>nosotros</td><td>-amos</td><td>-emos</td><td>-imos</td></tr>
+            <tr><td>ellos/ellas/ustedes</td><td>-an</td><td>-en</td><td>-en</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small-note">範例：hablar → hablo, hablas, habla, hablamos, hablan／comer → como, comes, come, comemos, comen／vivir → vivo, vives, vive, vivimos, viven</p>
+      <p class="small-note">⚠ 詞根母音變化動詞（stem-changing）在現在式除 nosotros 外都會變化：pedir (e→i) → pido／dormir (o→ue) → duermo／jugar (u→ue) → juego／seguir (e→i，且 gu→g) → sigo。</p>
+    </div>
+
+    <div class="panel">
+      <div class="tense-tag preterito">簡單過去式 Pretérito indefinido</div>
+      <p>描述過去某個時間點「已完成」的單一動作。</p>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead><tr><th>人稱</th><th>-ar</th><th>-er / -ir</th></tr></thead>
+          <tbody>
+            <tr><td>yo</td><td>-é</td><td>-í</td></tr>
+            <tr><td>tú</td><td>-aste</td><td>-iste</td></tr>
+            <tr><td>él/ella/usted</td><td>-ó</td><td>-ió</td></tr>
+            <tr><td>nosotros</td><td>-amos</td><td>-imos</td></tr>
+            <tr><td>ellos/ellas/ustedes</td><td>-aron</td><td>-ieron</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small-note">範例：hablar → hablé, hablaste, habló, hablamos, hablaron／comer → comí, comiste, comió, comimos, comieron</p>
+      <p class="small-note">⚠ 拼寫子音變化（保留原音，只發生在 yo 人稱）：-car→qu（buscar→busqué）、-gar→gu（llegar→llegué, pagar→pagué, jugar→jugué）。</p>
+      <p class="small-note">⚠ -ir 詞根母音變化動詞，只有第三人稱（單/複數）才變化：pedir→pidió/pidieron、dormir→durmió/durmieron、seguir→siguió/siguieron。</p>
+      <p class="small-note">⚠ 不規則詞根動詞（整個詞根換掉，字尾改用 -e/-iste/-o/-imos/-ieron，且 yo/él 不加重音）：tener→tuve, estar→estuve, poder→pude, poner→puse, saber→supe, hacer→hice（但 él→hizo）, querer→quise, venir→vine, decir→dije（第三人稱複數是 dijeron，不是 dijieron，因為詞根以 j 結尾）。</p>
+      <p class="small-note">⚠ ser／ir 的簡單過去式完全相同：fui, fuiste, fue, fuimos, fueron，需靠上下文判斷語意。dar 的簡單過去式沒有重音符號：di, diste, dio, dimos, dieron。</p>
+    </div>
+
+    <div class="panel">
+      <div class="tense-tag imperfecto">未完成過去式 Pretérito imperfecto</div>
+      <p>描述過去的習慣、背景描述，或動作進行中但不強調何時結束。</p>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead><tr><th>人稱</th><th>-ar</th><th>-er / -ir</th></tr></thead>
+          <tbody>
+            <tr><td>yo</td><td>-aba</td><td>-ía</td></tr>
+            <tr><td>tú</td><td>-abas</td><td>-ías</td></tr>
+            <tr><td>él/ella/usted</td><td>-aba</td><td>-ía</td></tr>
+            <tr><td>nosotros</td><td>-ábamos</td><td>-íamos</td></tr>
+            <tr><td>ellos/ellas/ustedes</td><td>-aban</td><td>-ían</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small-note">範例：hablar → hablaba, hablabas, hablaba, hablábamos, hablaban／vivir → vivía, vivías, vivía, vivíamos, vivían</p>
+      <p class="small-note">⚠ 西語只有 3 個未完成過去式不規則動詞：ser → era, eras, era, éramos, eran；ir → iba, ibas, iba, íbamos, iban；ver → veía, veías, veía, veíamos, veían。本 app 涵蓋的動詞中僅 ser／ir 屬此類，其餘一律規則變化。</p>
+    </div>
+
+    <div class="panel">
+      <div class="tense-tag futuro">未來式 Futuro simple</div>
+      <p>直接在「完整原形動詞」後面加字尾，三組動詞（-ar/-er/-ir）字尾完全相同：</p>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead><tr><th>人稱</th><th>字尾</th></tr></thead>
+          <tbody>
+            <tr><td>yo</td><td>-é</td></tr>
+            <tr><td>tú</td><td>-ás</td></tr>
+            <tr><td>él/ella/usted</td><td>-á</td></tr>
+            <tr><td>nosotros</td><td>-emos</td></tr>
+            <tr><td>ellos/ellas/ustedes</td><td>-án</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small-note">範例：hablar → hablaré, hablarás, hablará, hablaremos, hablarán</p>
+      <p class="small-note">⚠ 未來式的「不規則」只發生在詞幹（原形被截短或改變），字尾仍然規則：tener→tendr-、poder→podr-、querer→querr-、saber→sabr-、poner→pondr-、salir→saldr-、venir→vendr-、hacer→har-、decir→dir-。例：tener → tendré, tendrás, tendrá, tendremos, tendrán。</p>
+    </div>
+
+    <div class="panel">
+      <div class="tense-tag condicional">條件式 Condicional simple</div>
+      <p>字尾規則與未完成過去式的 -er/-ir 組完全相同，同樣加在「完整原形動詞」後面：</p>
+      <div style="overflow-x:auto;">
+        <table>
+          <thead><tr><th>人稱</th><th>字尾</th></tr></thead>
+          <tbody>
+            <tr><td>yo</td><td>-ía</td></tr>
+            <tr><td>tú</td><td>-ías</td></tr>
+            <tr><td>él/ella/usted</td><td>-ía</td></tr>
+            <tr><td>nosotros</td><td>-íamos</td></tr>
+            <tr><td>ellos/ellas/ustedes</td><td>-ían</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="small-note">範例：hablar → hablaría, hablarías, hablaría, hablaríamos, hablarían</p>
+      <p class="small-note">⚠ 條件式的不規則詞幹與未來式完全一樣（同一組特殊詞幹，字尾規則）：tendría, podría, querría, sabría, pondría, saldría, vendría, haría, diría。</p>
+    </div>
+
+    <div class="panel">
+      <h2>常見易混淆重點</h2>
+      <ul class="rule-list">
+        <li><strong>ser vs ir</strong> 的簡單過去式完全相同（fui/fuiste/fue/fuimos/fueron），要靠上下文判斷是「是」還是「去」。</li>
+        <li><strong>decir</strong> 的簡單過去式第三人稱複數是 <strong>dijeron</strong>，不是 dijieron（詞根以 j 結尾時，字尾用 -eron 而非 -ieron）。</li>
+        <li><strong>jugar</strong> 的簡單過去式 yo 是 <strong>jugué</strong>（g→gu 保留硬音），不是 jugé。</li>
+        <li><strong>seguir</strong> 的現在式 yo 是 <strong>sigo</strong>（gu→g，因為 o 前面 gu 會發硬音，需去掉 u）。</li>
+        <li><strong>saber</strong> 的現在式 yo 是 <strong>sé</strong>（帶重音符號，與反身代名詞 se 拼字不同）。</li>
+        <li><strong>dar</strong> 的簡單過去式沒有重音符號（di/diste/dio/dimos/dieron），容易誤加。</li>
+        <li>詞根母音變化動詞（pedir/dormir/seguir/jugar）：現在式除 nosotros 外都變化；簡單過去式只有 <strong>-ir</strong> 動詞的第三人稱（單/複數）才變化，<strong>-ar</strong> 動詞（如 jugar）簡單過去式不變。</li>
+      </ul>
     </div>
   </section>
 
@@ -1102,6 +1246,7 @@ const state = {
   sessionTotal: 0,
   currentItem: null,
   answered: false,
+  retryMode: false,
   weakOnlyMode: false
 };
 
@@ -1276,6 +1421,7 @@ function nextQuestion() {
   }
   state.currentItem = state.queue[state.queueIndex];
   state.answered = false;
+  state.retryMode = false;
   renderQuestion();
 }
 
@@ -1350,6 +1496,40 @@ function updateStats(item, isCorrect) {
   saveStats(stats);
 }
 
+function finalizeCorrect(item, wasRetry) {
+  state.answered = true;
+  answerInput.className = "answer-input correct";
+  feedbackEl.textContent = wasRetry ? "✓ 訂正正確" : "✓ 正確";
+  feedbackEl.className = "feedback correct";
+  if (state.weakOnlyMode && !wasRetry) removeWeakPoint(item);
+  document.getElementById("quiz-score").textContent = `答對 ${state.sessionCorrect} / ${state.sessionTotal}`;
+  submitBtn.classList.add("hidden");
+  nextBtn.classList.remove("hidden");
+  answerInput.disabled = true;
+  // auto-advance after 0.8s unless user already pressed Enter to move on
+  autoAdvanceTimer = setTimeout(() => {
+    state.queueIndex++;
+    nextQuestion();
+  }, 800);
+}
+
+function showRetryFeedback(item, correctAnswer, isRepeat) {
+  answerInput.className = "answer-input wrong";
+  feedbackEl.innerHTML = isRepeat
+    ? `✗ 還是不對，正確答案：<strong>${correctAnswer}</strong>，請重新輸入`
+    : `✗ 正確答案：<strong>${correctAnswer}</strong>，請重新輸入一次以繼續`;
+  feedbackEl.className = "feedback wrong";
+  if (item.verb.ejemplo_zh) {
+    exampleHintEl.textContent = `💡 ${item.verb.ejemplo_zh}`;
+    exampleHintEl.classList.remove("hidden");
+  }
+  document.getElementById("quiz-score").textContent = `答對 ${state.sessionCorrect} / ${state.sessionTotal}`;
+  answerInput.value = "";
+  answerInput.disabled = false;
+  answerInput.focus();
+  // submit button stays visible, next button stays hidden — must retype correctly to advance
+}
+
 function submitAnswer() {
   if (state.answered) return;
   const item = state.currentItem;
@@ -1357,40 +1537,25 @@ function submitAnswer() {
   const userAnswer = answerInput.value;
   const isCorrect = userAnswer.trim() !== "" && answersMatch(userAnswer, correctAnswer);
 
-  state.answered = true;
-  state.sessionTotal += 1;
-  if (isCorrect) state.sessionCorrect += 1;
-
-  updateStats(item, isCorrect);
-
-  if (isCorrect) {
-    answerInput.className = "answer-input correct";
-    feedbackEl.textContent = "✓ 正確";
-    feedbackEl.className = "feedback correct";
-    if (state.weakOnlyMode) removeWeakPoint(item);
-    document.getElementById("quiz-score").textContent = `答對 ${state.sessionCorrect} / ${state.sessionTotal}`;
-    submitBtn.classList.add("hidden");
-    nextBtn.classList.remove("hidden");
-    answerInput.disabled = true;
-    // auto-advance after 0.8s unless user already pressed Enter to move on
-    autoAdvanceTimer = setTimeout(() => {
-      state.queueIndex++;
-      nextQuestion();
-    }, 800);
-  } else {
-    answerInput.className = "answer-input wrong";
-    feedbackEl.innerHTML = `✗ 正確答案：<strong>${correctAnswer}</strong>`;
-    feedbackEl.className = "feedback wrong";
-    if (item.verb.ejemplo_zh) {
-      exampleHintEl.textContent = `💡 ${item.verb.ejemplo_zh}`;
-      exampleHintEl.classList.remove("hidden");
+  if (!state.retryMode) {
+    // first attempt on this question: counts toward session/stats/weak-points
+    state.sessionTotal += 1;
+    updateStats(item, isCorrect);
+    if (isCorrect) {
+      state.sessionCorrect += 1;
+      finalizeCorrect(item, false);
+    } else {
+      recordWeakPoint(item, userAnswer, correctAnswer);
+      state.retryMode = true;
+      showRetryFeedback(item, correctAnswer, false);
     }
-    recordWeakPoint(item, userAnswer, correctAnswer);
-    document.getElementById("quiz-score").textContent = `答對 ${state.sessionCorrect} / ${state.sessionTotal}`;
-    submitBtn.classList.add("hidden");
-    nextBtn.classList.remove("hidden");
-    answerInput.disabled = true;
-    // wrong answers require manual advance, no auto-jump
+  } else {
+    // retry attempt: already counted as wrong on first try, just needs a correct retype to proceed
+    if (isCorrect) {
+      finalizeCorrect(item, true);
+    } else {
+      showRetryFeedback(item, correctAnswer, true);
+    }
   }
 }
 
