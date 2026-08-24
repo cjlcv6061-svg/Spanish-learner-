@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>西語動詞變化機械練習</title>
+<title>Práctica de Conjugación Verbal</title>
 <style>
   :root {
     --color-presente: #2563eb;
@@ -11,11 +11,11 @@
     --color-imperfecto: #7c3aed;
     --color-futuro: #16a34a;
     --color-condicional: #6b7280;
-    --bg: #f5f6f8;
-    --panel: #ffffff;
-    --text: #1f2430;
-    --text-dim: #6b7280;
-    --border: #e2e5ea;
+    --bg: #f1e4d3;
+    --panel: #fffaf2;
+    --text: #3d2b1f;
+    --text-dim: #8a7160;
+    --border: #ddc7a8;
     --correct: #16a34a;
     --wrong: #dc2626;
   }
@@ -95,7 +95,7 @@
   }
   .choice-group button {
     border: 1px solid var(--border);
-    background: #fff;
+    background: var(--panel);
     border-radius: 20px;
     padding: 6px 14px;
     font-size: 13px;
@@ -111,14 +111,14 @@
   .tense-btn[data-tense="imperfecto"].selected { background: var(--color-imperfecto); }
   .tense-btn[data-tense="futuro"].selected { background: var(--color-futuro); }
   .tense-btn[data-tense="condicional"].selected { background: var(--color-condicional); }
-  .choice-group button.selected:not(.tense-btn) { background: #1f2430; }
+  .choice-group button.selected:not(.tense-btn) { background: var(--text); }
 
   select, input[type=number] {
     padding: 8px 10px;
     border-radius: 8px;
     border: 1px solid var(--border);
     font-size: 14px;
-    background: #fff;
+    background: var(--panel);
     color: var(--text);
   }
   .verb-picker {
@@ -153,7 +153,7 @@
     cursor: not-allowed;
   }
   .secondary-btn {
-    background: #fff;
+    background: var(--panel);
     border: 1px solid var(--border);
     border-radius: 8px;
     padding: 8px 16px;
@@ -224,7 +224,7 @@
   .example-sentence {
     margin-top: 12px;
     padding: 8px 12px;
-    background: #f8f9fb;
+    background: #f4e9d8;
     border-left: 3px solid var(--border);
     border-radius: 6px;
     font-size: 14px;
@@ -293,7 +293,7 @@
     margin-bottom: 16px;
   }
   .stat-box {
-    background: #fafafa;
+    background: #f6ecdb;
     border: 1px solid var(--border);
     border-radius: 10px;
     padding: 12px;
@@ -321,7 +321,7 @@
   }
   .bar-track {
     flex: 1;
-    background: #eee;
+    background: #e6d6ba;
     border-radius: 6px;
     overflow: hidden;
     height: 10px;
@@ -360,12 +360,12 @@
 <body>
 
 <header>
-  <h1>西語動詞變化機械練習</h1>
+  <h1>Práctica de Conjugación Verbal</h1>
   <nav class="tabs">
-    <button class="tab-btn active" data-tab="setup">練習設定</button>
-    <button class="tab-btn" data-tab="learn">文法規則</button>
-    <button class="tab-btn" data-tab="weak">錯題複習</button>
-    <button class="tab-btn" data-tab="stats">進度統計</button>
+    <button class="tab-btn active" data-tab="setup">Configuración</button>
+    <button class="tab-btn" data-tab="learn">Reglas Gramaticales</button>
+    <button class="tab-btn" data-tab="weak">Repaso de Errores</button>
+    <button class="tab-btn" data-tab="stats">Estadísticas</button>
   </nav>
 </header>
 
@@ -374,31 +374,31 @@
   <!-- ===================== SETUP TAB ===================== -->
   <section id="tab-setup">
     <div class="panel">
-      <h2>1. 選擇模式</h2>
+      <h2>1. Elige el Modo</h2>
       <div class="choice-group" id="mode-group">
-        <button class="mode-btn selected" data-mode="A">A：遷詞式（單一時態逐動詞過）</button>
-        <button class="mode-btn" data-mode="B">B：混合隨機</button>
+        <button class="mode-btn selected" data-mode="A">A: Secuencial (un tiempo verbal, verbo por verbo)</button>
+        <button class="mode-btn" data-mode="B">B: Aleatorio Mixto</button>
       </div>
     </div>
 
     <div class="panel">
-      <h2>2. 時態範圍（可複選）</h2>
+      <h2>2. Tiempos Verbales (selección múltiple)</h2>
       <div class="choice-group" id="tense-group">
-        <button class="choice-btn tense-btn selected" data-tense="presente">現在式</button>
-        <button class="choice-btn tense-btn selected" data-tense="preterito">簡單過去式</button>
-        <button class="choice-btn tense-btn selected" data-tense="imperfecto">未完成過去式</button>
-        <button class="choice-btn tense-btn selected" data-tense="futuro">未來式</button>
-        <button class="choice-btn tense-btn selected" data-tense="condicional">條件式</button>
+        <button class="choice-btn tense-btn selected" data-tense="presente">Presente</button>
+        <button class="choice-btn tense-btn selected" data-tense="preterito">Pretérito</button>
+        <button class="choice-btn tense-btn selected" data-tense="imperfecto">Imperfecto</button>
+        <button class="choice-btn tense-btn selected" data-tense="futuro">Futuro</button>
+        <button class="choice-btn tense-btn selected" data-tense="condicional">Condicional</button>
       </div>
     </div>
 
     <div class="panel">
-      <h2>3. 動詞範圍</h2>
+      <h2>3. Selección de Verbos</h2>
       <div class="choice-group" id="verb-range-group">
-        <button class="verb-range-btn selected" data-range="all">全部</button>
-        <button class="verb-range-btn" data-range="regular">只規則</button>
-        <button class="verb-range-btn" data-range="irregular">只不規則</button>
-        <button class="verb-range-btn" data-range="custom">自訂勾選</button>
+        <button class="verb-range-btn selected" data-range="all">Todos</button>
+        <button class="verb-range-btn" data-range="regular">Solo regulares</button>
+        <button class="verb-range-btn" data-range="irregular">Solo irregulares</button>
+        <button class="verb-range-btn" data-range="custom">Selección personalizada</button>
       </div>
       <div id="verb-picker-wrap" class="hidden" style="margin-top:12px;">
         <div class="verb-picker" id="verb-picker"></div>
@@ -406,18 +406,18 @@
     </div>
 
     <div class="panel" id="round-count-panel">
-      <h2>4. 本輪題數（模式 B）</h2>
+      <h2>4. Número de Preguntas (Modo B)</h2>
       <div class="choice-group" id="count-group">
         <button class="count-btn" data-count="10">10</button>
         <button class="count-btn selected" data-count="20">20</button>
         <button class="count-btn" data-count="50">50</button>
         <button class="count-btn" data-count="100">100</button>
-        <button class="count-btn" data-count="0">無限</button>
+        <button class="count-btn" data-count="0">Ilimitado</button>
       </div>
     </div>
 
     <div class="panel">
-      <button class="primary-btn" id="start-btn">開始練習</button>
+      <button class="primary-btn" id="start-btn">Comenzar</button>
       <div class="small-note" id="setup-warning"></div>
     </div>
   </section>
@@ -559,84 +559,84 @@
         <span id="quiz-progress"></span>
         <span id="quiz-score"></span>
       </div>
-      <div id="tense-tag" class="tense-tag presente">現在式</div>
+      <div id="tense-tag" class="tense-tag presente">Presente</div>
       <div class="prompt-line">
         <span id="prompt-pronoun">yo</span>
         <span class="prompt-verb" id="prompt-verb">hablar</span>
       </div>
       <div class="zh-hint" id="prompt-zh">說、講</div>
-      <input type="text" class="answer-input" id="answer-input" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="輸入變化形…">
+      <input type="text" class="answer-input" id="answer-input" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="Escribe la conjugación…">
       <div class="feedback" id="feedback"></div>
       <div class="example-sentence hidden" id="example-sentence"></div>
       <div class="example-hint hidden" id="example-hint"></div>
       <div class="submit-row">
-        <button class="secondary-btn" id="submit-btn">送出</button>
-        <button class="secondary-btn next-btn hidden" id="next-btn">下一題 →</button>
-        <button class="secondary-btn" id="quit-btn">結束練習</button>
+        <button class="secondary-btn" id="submit-btn">Enviar</button>
+        <button class="secondary-btn next-btn hidden" id="next-btn">Siguiente →</button>
+        <button class="secondary-btn" id="quit-btn">Terminar</button>
       </div>
     </div>
 
     <div class="panel">
-      <h2>最近例句</h2>
+      <h2>Frases Recientes</h2>
       <ul class="recent-examples-list" id="recent-examples-list"></ul>
-      <div class="small-note" id="recent-examples-empty">尚無紀錄，答題後會顯示在這裡（保留最近 5 句）。</div>
+      <div class="small-note" id="recent-examples-empty">Aún no hay registros. Aparecerán aquí después de responder (se guardan las últimas 5).</div>
     </div>
   </section>
 
   <!-- ===================== RESULT TAB ===================== -->
   <section id="tab-result" class="hidden">
     <div class="panel">
-      <h2>本輪結果</h2>
+      <h2>Resultado de esta Ronda</h2>
       <div class="stat-grid">
-        <div class="stat-box"><div class="num" id="result-total">0</div><div class="label">題數</div></div>
-        <div class="stat-box"><div class="num" id="result-correct">0</div><div class="label">答對</div></div>
-        <div class="stat-box"><div class="num" id="result-rate">0%</div><div class="label">正確率</div></div>
+        <div class="stat-box"><div class="num" id="result-total">0</div><div class="label">Preguntas</div></div>
+        <div class="stat-box"><div class="num" id="result-correct">0</div><div class="label">Correctas</div></div>
+        <div class="stat-box"><div class="num" id="result-rate">0%</div><div class="label">Precisión</div></div>
       </div>
-      <button class="primary-btn" id="back-to-setup-btn">回到設定畫面</button>
+      <button class="primary-btn" id="back-to-setup-btn">Volver a Configuración</button>
     </div>
   </section>
 
   <!-- ===================== WEAK POINTS TAB ===================== -->
   <section id="tab-weak" class="hidden">
     <div class="panel">
-      <h2>錯題複習</h2>
+      <h2>Repaso de Errores</h2>
       <div style="display:flex; gap:8px; margin-bottom:12px; flex-wrap:wrap;">
-        <button class="primary-btn" style="width:auto;" id="practice-weak-btn">只練錯題</button>
-        <button class="secondary-btn" id="clear-weak-btn">清除全部錯題紀錄</button>
+        <button class="primary-btn" style="width:auto;" id="practice-weak-btn">Practicar solo errores</button>
+        <button class="secondary-btn" id="clear-weak-btn">Borrar todos los errores</button>
       </div>
       <div style="overflow-x:auto;">
         <table id="weak-table">
           <thead>
             <tr>
-              <th>動詞</th><th>時態</th><th>人稱</th><th>正確答案</th><th>你的錯誤答案</th><th>錯誤次數</th><th></th>
+              <th>Verbo</th><th>Tiempo</th><th>Persona</th><th>Respuesta correcta</th><th>Tu respuesta</th><th>Veces</th><th></th>
             </tr>
           </thead>
           <tbody id="weak-tbody"></tbody>
         </table>
       </div>
-      <div class="small-note" id="weak-empty">目前沒有錯題紀錄。</div>
+      <div class="small-note" id="weak-empty">No hay errores registrados todavía.</div>
     </div>
   </section>
 
   <!-- ===================== STATS TAB ===================== -->
   <section id="tab-stats" class="hidden">
     <div class="panel">
-      <h2>整體進度</h2>
+      <h2>Progreso General</h2>
       <div class="stat-grid">
-        <div class="stat-box"><div class="num" id="stat-total">0</div><div class="label">總練習題數</div></div>
-        <div class="stat-box"><div class="num" id="stat-rate">0%</div><div class="label">總正確率</div></div>
+        <div class="stat-box"><div class="num" id="stat-total">0</div><div class="label">Total de Preguntas</div></div>
+        <div class="stat-box"><div class="num" id="stat-rate">0%</div><div class="label">Precisión Total</div></div>
       </div>
     </div>
     <div class="panel">
-      <h2>依時態分列正確率</h2>
+      <h2>Precisión por Tiempo Verbal</h2>
       <div id="stat-by-tense"></div>
     </div>
     <div class="panel">
-      <h2>依動詞類型分列正確率</h2>
+      <h2>Precisión por Tipo de Verbo</h2>
       <div id="stat-by-type"></div>
     </div>
     <div class="panel">
-      <button class="secondary-btn" id="reset-stats-btn">重設所有統計數據</button>
+      <button class="secondary-btn" id="reset-stats-btn">Restablecer Estadísticas</button>
     </div>
   </section>
 
@@ -1223,11 +1223,11 @@ const VERBS = [...REGULAR_VERBS, ...IRREGULAR_VERBS];
 // ============================================================
 
 const TENSE_LABELS = {
-  presente: "現在式",
-  preterito: "簡單過去式",
-  imperfecto: "未完成過去式",
-  futuro: "未來式",
-  condicional: "條件式"
+  presente: "Presente",
+  preterito: "Pretérito",
+  imperfecto: "Imperfecto",
+  futuro: "Futuro",
+  condicional: "Condicional"
 };
 const TENSE_ORDER = ["presente", "preterito", "imperfecto", "futuro", "condicional"];
 const PRONOUNS = ["yo", "tú", "él/ella/usted", "nosotros", "ellos/ellas/ustedes"];
@@ -1498,11 +1498,11 @@ document.getElementById("start-btn").addEventListener("click", () => {
   const warning = document.getElementById("setup-warning");
   warning.textContent = "";
   if (pool.length === 0) {
-    warning.textContent = "請至少選擇一個動詞。";
+    warning.textContent = "Selecciona al menos un verbo.";
     return;
   }
   if (state.tenses.length === 0) {
-    warning.textContent = "請至少選擇一個時態。";
+    warning.textContent = "Selecciona al menos un tiempo verbal.";
     return;
   }
   state.weakOnlyMode = false;
@@ -1565,10 +1565,10 @@ function renderQuestion() {
   document.getElementById("prompt-zh").textContent = verb.zh || "";
   document.getElementById("quiz-progress").textContent =
     state.currentRoundCount === 0 && state.mode === "B"
-      ? `第 ${state.queueIndex + 1} 題`
-      : `第 ${state.queueIndex + 1} / ${state.queue.length} 題`;
+      ? `Pregunta ${state.queueIndex + 1}`
+      : `Pregunta ${state.queueIndex + 1} / ${state.queue.length}`;
   document.getElementById("quiz-score").textContent =
-    `答對 ${state.sessionCorrect} / ${state.sessionTotal}`;
+    `Correctas: ${state.sessionCorrect} / ${state.sessionTotal}`;
 
   answerInput.value = "";
   answerInput.className = "answer-input";
@@ -1652,14 +1652,14 @@ function addRecentExample(sentence) {
 function finalizeCorrect(item, wasRetry) {
   state.answered = true;
   answerInput.className = "answer-input correct";
-  feedbackEl.textContent = wasRetry ? "✓ 訂正正確" : "✓ 正確";
+  feedbackEl.textContent = wasRetry ? "✓ Corregido" : "✓ Correcto";
   feedbackEl.className = "feedback correct";
   const sentence = buildEjemplo(item.verb, item.tense, item.personIndex);
   exampleSentenceEl.textContent = sentence;
   exampleSentenceEl.classList.remove("hidden");
   addRecentExample(sentence);
   if (state.weakOnlyMode && !wasRetry) removeWeakPoint(item);
-  document.getElementById("quiz-score").textContent = `答對 ${state.sessionCorrect} / ${state.sessionTotal}`;
+  document.getElementById("quiz-score").textContent = `Correctas: ${state.sessionCorrect} / ${state.sessionTotal}`;
   submitBtn.classList.add("hidden");
   nextBtn.classList.remove("hidden");
   answerInput.disabled = true;
@@ -1673,8 +1673,8 @@ function finalizeCorrect(item, wasRetry) {
 function showRetryFeedback(item, correctAnswer, isRepeat) {
   answerInput.className = "answer-input wrong";
   feedbackEl.innerHTML = isRepeat
-    ? `✗ 還是不對，正確答案：<strong>${correctAnswer}</strong>，請重新輸入`
-    : `✗ 正確答案：<strong>${correctAnswer}</strong>，請重新輸入一次以繼續`;
+    ? `✗ Sigue sin ser correcto. Respuesta correcta: <strong>${correctAnswer}</strong>. Inténtalo de nuevo.`
+    : `✗ Respuesta correcta: <strong>${correctAnswer}</strong>. Escríbela de nuevo para continuar.`;
   feedbackEl.className = "feedback wrong";
   exampleSentenceEl.textContent = buildEjemplo(item.verb, item.tense, item.personIndex);
   exampleSentenceEl.classList.remove("hidden");
@@ -1682,7 +1682,7 @@ function showRetryFeedback(item, correctAnswer, isRepeat) {
     exampleHintEl.textContent = `💡 ${item.verb.ejemplo_zh}`;
     exampleHintEl.classList.remove("hidden");
   }
-  document.getElementById("quiz-score").textContent = `答對 ${state.sessionCorrect} / ${state.sessionTotal}`;
+  document.getElementById("quiz-score").textContent = `Correctas: ${state.sessionCorrect} / ${state.sessionTotal}`;
   answerInput.value = "";
   answerInput.disabled = false;
   answerInput.focus();
@@ -1774,9 +1774,9 @@ function renderWeakTable() {
       <td>${TENSE_LABELS[w.tense] || w.tense}</td>
       <td>${PRONOUNS[w.personIndex] || ""}</td>
       <td>${w.correctAnswer}</td>
-      <td>${w.userAnswer || "(空白)"}</td>
+      <td>${w.userAnswer || "(vacío)"}</td>
       <td>${w.count}</td>
-      <td><button class="del-btn" data-idx="${idx}">刪除</button></td>
+      <td><button class="del-btn" data-idx="${idx}">Eliminar</button></td>
     `;
     tbody.appendChild(tr);
   });
@@ -1795,7 +1795,7 @@ function renderWeakTable() {
 }
 
 document.getElementById("clear-weak-btn").addEventListener("click", () => {
-  if (confirm("確定要清除全部錯題紀錄嗎？此動作無法復原。")) {
+  if (confirm("¿Seguro que quieres borrar todos los errores? Esta acción no se puede deshacer.")) {
     saveWeak([]);
     renderWeakTable();
   }
@@ -1804,7 +1804,7 @@ document.getElementById("clear-weak-btn").addEventListener("click", () => {
 document.getElementById("practice-weak-btn").addEventListener("click", () => {
   const list = loadWeak();
   if (list.length === 0) {
-    alert("目前沒有錯題紀錄可練習。");
+    alert("No hay errores para practicar todavía.");
     return;
   }
   const queue = list.map(w => {
@@ -1812,7 +1812,7 @@ document.getElementById("practice-weak-btn").addEventListener("click", () => {
     return verb ? { verb, tense: w.tense, personIndex: w.personIndex } : null;
   }).filter(Boolean);
   if (queue.length === 0) {
-    alert("找不到對應的動詞資料。");
+    alert("No se encontraron los datos del verbo.");
     return;
   }
   state.weakOnlyMode = true;
@@ -1868,12 +1868,12 @@ function renderStats() {
 
   const byTypeEl = document.getElementById("stat-by-type");
   byTypeEl.innerHTML = "";
-  renderBar(byTypeEl, "規則動詞", stats.byType.regular.correct, stats.byType.regular.total, "#2563eb");
-  renderBar(byTypeEl, "不規則動詞", stats.byType.irregular.correct, stats.byType.irregular.total, "#dc2626");
+  renderBar(byTypeEl, "Verbos regulares", stats.byType.regular.correct, stats.byType.regular.total, "#2563eb");
+  renderBar(byTypeEl, "Verbos irregulares", stats.byType.irregular.correct, stats.byType.irregular.total, "#dc2626");
 }
 
 document.getElementById("reset-stats-btn").addEventListener("click", () => {
-  if (confirm("確定要重設所有統計數據嗎？此動作無法復原。")) {
+  if (confirm("¿Seguro que quieres restablecer todas las estadísticas? Esta acción no se puede deshacer.")) {
     saveStats(defaultStats());
     renderStats();
   }
