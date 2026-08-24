@@ -1355,15 +1355,23 @@ function buildQueueModeA(pool, tenses) {
 }
 
 function buildQueueModeB(pool, tenses, count) {
-  const queue = [];
-  const n = count > 0 ? count : 200; // "無限" -> generate in batches; start with 200
-  for (let i = 0; i < n; i++) {
-    const verb = pool[Math.floor(Math.random() * pool.length)];
-    const tense = tenses[Math.floor(Math.random() * tenses.length)];
-    const personIndex = Math.floor(Math.random() * 5);
-    queue.push({ verb, tense, personIndex });
+  // Build every unique (verb, tense, person) combination and shuffle it, so a
+  // single pass never presents the same question twice. For "無限" (count=0)
+  // each call returns one full non-repeating shuffled pass; nextQuestion()
+  // appends a fresh pass once the current one is exhausted.
+  const allCombos = [];
+  pool.forEach(verb => {
+    tenses.forEach(tense => {
+      for (let p = 0; p < 5; p++) {
+        allCombos.push({ verb, tense, personIndex: p });
+      }
+    });
+  });
+  const shuffled = shuffle(allCombos);
+  if (count > 0) {
+    return shuffled.slice(0, Math.min(count, shuffled.length));
   }
-  return queue;
+  return shuffled;
 }
 
 document.getElementById("start-btn").addEventListener("click", () => {
@@ -1412,8 +1420,8 @@ let autoAdvanceTimer = null;
 function nextQuestion() {
   clearTimeout(autoAdvanceTimer);
   if (state.mode === "B" && state.currentRoundCount === 0 && state.queueIndex >= state.queue.length) {
-    // infinite mode: extend queue
-    state.queue = state.queue.concat(buildQueueModeB(state.currentPool, state.currentTenses, 200));
+    // infinite mode: append a fresh non-repeating shuffled pass over all combos
+    state.queue = state.queue.concat(buildQueueModeB(state.currentPool, state.currentTenses, 0));
   }
   if (state.queueIndex >= state.queue.length) {
     endSession();
