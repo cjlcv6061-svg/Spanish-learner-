@@ -256,9 +256,28 @@
   .quiz-meta {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     font-size: 13px;
     color: var(--text-dim);
     margin-bottom: 8px;
+  }
+  .voice-toggle-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    width: 30px;
+    height: 30px;
+    font-size: 15px;
+    line-height: 1;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text);
+    padding: 0;
+  }
+  .voice-toggle-btn.muted {
+    opacity: 0.5;
   }
   .next-btn {
     margin-top: 16px;
@@ -607,6 +626,7 @@
     <div class="panel quiz-card">
       <div class="quiz-meta">
         <span id="quiz-progress"></span>
+        <button class="voice-toggle-btn" id="voice-toggle-btn" type="button" title="Activar o desactivar la voz">🔊</button>
         <span id="quiz-score"></span>
       </div>
       <div id="tense-tag" class="tense-tag presente">Presente</div>
@@ -1658,8 +1678,54 @@ const exampleHintEl = document.getElementById("example-hint");
 const exampleSentenceEl = document.getElementById("example-sentence");
 const submitBtn = document.getElementById("submit-btn");
 const nextBtn = document.getElementById("next-btn");
+const voiceToggleBtn = document.getElementById("voice-toggle-btn");
 
 let autoAdvanceTimer = null;
+
+// ============================================================
+// 語音朗讀（Web Speech API，瀏覽器內建，無外部依賴）：送出答案、
+// 顯示正確答案時朗讀該變化形，幫助建立發音與拼寫的連結。
+// ============================================================
+
+const LS_VOICE_ENABLED = "verbDrillVoiceEnabled";
+
+function isVoiceEnabled() {
+  const v = localStorage.getItem(LS_VOICE_ENABLED);
+  return v === null ? true : v === "true";
+}
+
+function setVoiceEnabled(enabled) {
+  localStorage.setItem(LS_VOICE_ENABLED, String(enabled));
+}
+
+function updateVoiceToggleUI() {
+  const enabled = isVoiceEnabled();
+  voiceToggleBtn.textContent = enabled ? "🔊" : "🔇";
+  voiceToggleBtn.classList.toggle("muted", !enabled);
+}
+
+function speakSpanish(text) {
+  if (!isVoiceEnabled()) return;
+  if (!("speechSynthesis" in window)) return;
+  try {
+    window.speechSynthesis.cancel(); // stop any overlapping utterance from a fast previous answer
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = "es-419";
+    utterance.rate = 0.9;
+    window.speechSynthesis.speak(utterance);
+  } catch (e) {
+    // TTS unsupported/blocked in this browser — non-critical, fail silently
+  }
+}
+
+voiceToggleBtn.addEventListener("click", () => {
+  setVoiceEnabled(!isVoiceEnabled());
+  updateVoiceToggleUI();
+  if (!isVoiceEnabled() && "speechSynthesis" in window) {
+    window.speechSynthesis.cancel();
+  }
+});
+updateVoiceToggleUI();
 
 function nextQuestion() {
   clearTimeout(autoAdvanceTimer);
@@ -1780,6 +1846,7 @@ function finalizeCorrect(item, wasRetry) {
   exampleSentenceEl.textContent = sentence;
   exampleSentenceEl.classList.remove("hidden");
   addRecentExample(sentence);
+  speakSpanish(item.verb.conjugaciones[item.tense][item.personIndex]);
   if (state.weakOnlyMode && !wasRetry) removeWeakPoint(item);
   document.getElementById("quiz-score").textContent = `Correctas: ${state.sessionCorrect} / ${state.sessionTotal}`;
   submitBtn.classList.add("hidden");
@@ -1800,6 +1867,7 @@ function showRetryFeedback(item, correctAnswer, isRepeat) {
   feedbackEl.className = "feedback wrong";
   exampleSentenceEl.textContent = buildEjemplo(item.verb, item.tense, item.personIndex);
   exampleSentenceEl.classList.remove("hidden");
+  if (!isRepeat) speakSpanish(correctAnswer);
   if (item.verb.ejemplo_zh) {
     exampleHintEl.textContent = `💡 ${item.verb.ejemplo_zh}`;
     exampleHintEl.classList.remove("hidden");
@@ -1871,6 +1939,7 @@ document.getElementById("quit-btn").addEventListener("click", () => {
 });
 
 function endSession() {
+  if ("speechSynthesis" in window) window.speechSynthesis.cancel();
   document.getElementById("result-total").textContent = state.sessionTotal;
   document.getElementById("result-correct").textContent = state.sessionCorrect;
   const rate = state.sessionTotal > 0 ? Math.round((state.sessionCorrect / state.sessionTotal) * 100) : 0;
